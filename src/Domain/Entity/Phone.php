@@ -52,6 +52,32 @@ class Phone
         $this->updatedAt = null;
     }
 
+    /**
+     * @param string $name
+     * @param string $description
+     * @param int $price
+     * @param Maker $maker
+     */
+    public function createPhone(
+        string $name,
+        string $description,
+        int $price,
+        Maker $maker
+    )
+    {
+        $this->name = $name;
+        $this->description = $description;
+        $this->price = $price;
+        $this->definedMaker($maker);
+    }
+
+    /**
+     * @param Maker $maker
+     */
+    public function definedMaker(Maker $maker)
+    {
+        $this->maker = $maker;
+    }
 
     public function getId(): UuidInterface
     {
@@ -81,5 +107,10 @@ class Phone
     public function getUpdatedAt(): \Datetime
     {
         return $this->updatedAt;
+    }
+
+    public function getMaker(): Maker
+    {
+        return $this->maker;
     }
 }

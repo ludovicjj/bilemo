@@ -10,5 +10,11 @@
         <field name="price" type="integer" />
         <field name="createdAt" type="integer"  />
         <field name="updatedAt" type="integer" nullable="true" />
+        <many-to-one field="maker" target-entity="App\Domain\Entity\maker" inversed-by="phones">
+            <cascade>
+                <cascade-persist/>
+                <cascade-remove/>
+            </cascade>
+        </many-to-one>
     </entity>
 </doctrine-mapping>

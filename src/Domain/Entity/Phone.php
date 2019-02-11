@@ -11,27 +11,22 @@ class Phone
      * @var UuidInterface
      */
     protected $id;
-
     /**
      * @var string
      */
     protected $name;
-
     /**
      * @var string
      */
     protected $description;
-
     /**
      * @var int
      */
     protected $price;
-
     /**
      * @var \DateTime
      */
     protected $createdAt;
-
     /**
      * @var \DateTime
      */
@@ -43,13 +38,12 @@ class Phone
     protected $maker;
 
     /**
+     * Phone constructor.
      * @throws \Exception
      */
-    public function __constructor()
+    public function __construct()
     {
         $this->id = Uuid::uuid4();
-        $this->createdAt = new \DateTime();
-        $this->updatedAt = null;
     }
 
     /**
@@ -57,6 +51,7 @@ class Phone
      * @param string $description
      * @param int $price
      * @param Maker $maker
+     * @throws \Exception
      */
     public function createPhone(
         string $name,
@@ -68,49 +63,25 @@ class Phone
         $this->name = $name;
         $this->description = $description;
         $this->price = $price;
-        $this->definedMaker($maker);
-    }
-
-    /**
-     * @param Maker $maker
-     */
-    public function definedMaker(Maker $maker)
-    {
+        $this->createdAt = new \DateTime();
         $this->maker = $maker;
     }
 
-    public function getId(): UuidInterface
+    /**
+     * @param string $name
+     * @param string $description
+     * @param int $price
+     * @throws \Exception
+     */
+    public function updatePhone(
+        string $name,
+        string $description,
+        int $price
+    )
     {
-        return $this->id;
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    public function getDescription(): string
-    {
-        return $this->description;
-    }
-
-    public function getPrice(): int
-    {
-        return $this->price;
-    }
-
-    public function getCreatedAt(): \DateTime
-    {
-        return $this->createdAt;
-    }
-
-    public function getUpdatedAt(): \Datetime
-    {
-        return $this->updatedAt;
-    }
-
-    public function getMaker(): Maker
-    {
-        return $this->maker;
+        $this->name =$name;
+        $this->description = $description;
+        $this->price = $price;
+        $this->updatedAt = new \DateTime();
     }
 }

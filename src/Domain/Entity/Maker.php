@@ -25,41 +25,24 @@ class Maker
     /**
      * Maker constructor.
      * @param string $name
-     * @param array $phones
      * @throws \Exception
      */
     public function __construct(
-        string $name,
-        array $phones = []
+        string $name
     )
     {
         $this->id = Uuid::uuid4();
         $this->name = $name;
-        $this->phones = new ArrayCollection($phones);
+        $this->phones = new ArrayCollection();
     }
 
-    /**
-     * @param array $phones
-     */
-    public function addPhone(array $phones)
+
+    public function addPhone(Phone $phone)
     {
-        // Defined Maker for each phone
-        foreach ($phones as $phone) {
-            $phone->definedMaker($this);
-            $this->phones[] = $phone;
-        }
+        $phone->definedMaker($this);
+        $this->phones[] = $phone;
     }
 
-    /**
-     * @param array $phones
-     */
-    public function removePhone(array $phones)
-    {
-        // Delete phones in ArrayCollection
-        foreach ($phones as $phone) {
-            $this->phones->removeElement($phone);
-        }
-    }
 
     public function getId(): UuidInterface
     {

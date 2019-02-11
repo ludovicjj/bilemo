@@ -38,24 +38,20 @@ class Phone
     protected $updatedAt;
 
     /**
-     * @param string $name
-     * @param string $description
-     * @param int $price
+     * @var Maker
+     */
+    protected $maker;
+
+    /**
      * @throws \Exception
      */
-    public function __constructor(
-        string $name,
-        string $description,
-        int $price
-    )
+    public function __constructor()
     {
         $this->id = Uuid::uuid4();
-        $this->name = $name;
-        $this->description = $description;
-        $this->price = $price;
         $this->createdAt = new \DateTime();
         $this->updatedAt = null;
     }
+
 
     public function getId(): UuidInterface
     {

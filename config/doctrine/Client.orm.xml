@@ -11,5 +11,6 @@
         <field name="updatedAt" type="datetime" nullable="true" />
         <field name="roles" type="array" />
         <field name="email" type="string" length="255" />
+        <one-to-many field="users" target-entity="App\Domain\Entity\Client" mapped-by="client"/>
     </entity>
 </doctrine-mapping>

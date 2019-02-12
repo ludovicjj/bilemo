@@ -36,14 +36,6 @@ class Maker
         $this->phones = new ArrayCollection();
     }
 
-
-    public function addPhone(Phone $phone)
-    {
-        $phone->definedMaker($this);
-        $this->phones[] = $phone;
-    }
-
-
     public function getId(): UuidInterface
     {
         return $this->id;

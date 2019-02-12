@@ -32,6 +32,10 @@ class Client implements UserInterface
      * @var array
      */
     protected $roles;
+    /**
+     * @var string
+     */
+    protected $email;
 
     /**
      * Client constructor.
@@ -45,11 +49,13 @@ class Client implements UserInterface
     /**
      * @param string $username
      * @param string $password
+     * @param string $email
      * @throws \Exception
      */
     public function createClient(
         string $username,
-        string $password
+        string $password,
+        string $email
     )
     {
         $this->username = $username;
@@ -57,6 +63,7 @@ class Client implements UserInterface
         $this->createdAt = new \DateTime();
         $this->updatedAt = null;
         $this->roles = ['ROLE_USER'];
+        $this->email = $email;
 
     }
 
@@ -88,6 +95,11 @@ class Client implements UserInterface
     public function getRoles(): array
     {
         return $this->roles;
+    }
+
+    public function getEmail(): string
+    {
+        return $this->email;
     }
 
     public function getSalt()

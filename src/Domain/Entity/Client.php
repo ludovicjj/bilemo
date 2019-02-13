@@ -38,6 +38,9 @@ class Client implements UserInterface
      */
     protected $email;
 
+    /**
+     * @var ArrayCollection
+     */
     protected $users;
 
     /**
@@ -66,7 +69,7 @@ class Client implements UserInterface
         $this->password = $password;
         $this->createdAt = new \DateTime();
         $this->updatedAt = null;
-        $this->roles = ['ROLE_USER'];
+        $this->roles = ['ROLE_CLIENT'];
         $this->email = $email;
 
     }

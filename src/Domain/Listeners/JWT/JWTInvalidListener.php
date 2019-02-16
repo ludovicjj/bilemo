@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\Listeners\JWT;
+namespace App\Domain\Listeners\JWT;
 
 use Lexik\Bundle\JWTAuthenticationBundle\Event\JWTInvalidEvent;
 use Lexik\Bundle\JWTAuthenticationBundle\Response\JWTAuthenticationFailureResponse;

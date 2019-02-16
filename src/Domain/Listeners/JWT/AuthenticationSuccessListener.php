@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\Listeners\JWT;
+namespace App\Domain\Listeners\JWT;
 
 use Lexik\Bundle\JWTAuthenticationBundle\Event\AuthenticationSuccessEvent;
 use Symfony\Component\Security\Core\User\UserInterface;

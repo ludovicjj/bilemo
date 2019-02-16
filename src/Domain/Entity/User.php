@@ -11,26 +11,37 @@ class User
      * @var UuidInterface
      */
     protected $id;
+
     /**
      * @var string
      */
-    protected $username;
+    protected $firstName;
+
     /**
      * @var string
      */
-    protected $password;
+    protected $lastName;
+
+    /**
+     * @var string
+     */
+    protected $phoneNumber;
+
     /**
      * @var string
      */
     protected $email;
+
     /**
      * @var \DateTime
      */
     protected $createdAt;
+
     /**
      * @var \DateTime
      */
     protected $updatedAt;
+
     /**
      * @var Client
      */
@@ -43,27 +54,54 @@ class User
     public function __construct()
     {
         $this->id = Uuid::uuid4();
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = null;
     }
 
     /**
-     * @param string $username
-     * @param string $password
+     * @param string $firstName
+     * @param string $lastName
+     * @param string $phoneNumber
      * @param string $email
      * @param Client $client
-     * @throws \Exception
      */
     public function createUser(
-        string $username,
-        string $password,
+        string $firstName,
+        string $lastName,
+        string $phoneNumber,
         string $email,
         Client $client
     )
     {
-        $this->username = $username;
-        $this->password = $password;
+        $this->firstName = $firstName;
+        $this->lastName = $lastName;
+        $this->phoneNumber = $phoneNumber;
         $this->email = $email;
-        $this->createdAt = new \DateTime();
-        $this->updatedAt = null;
         $this->client = $client;
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getFirstName()
+    {
+        return $this->firstName;
+    }
+
+    public function getLastName()
+    {
+        return $this->lastName;
+    }
+
+    public function getPhoneNumber()
+    {
+        return $this->phoneNumber;
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
     }
 }

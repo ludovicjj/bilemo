@@ -5,8 +5,9 @@
                    https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
     <entity name="App\Domain\Entity\User" table="lj_user" repository-class="App\Domain\Repository\UserRepository">
         <id name="id" type="uuid"  />
-        <field name="username" type="string" length="255" />
-        <field name="password" type="string" length="255" />
+        <field name="firstName" type="string" length="255" />
+        <field name="lastName" type="string" length="255" />
+        <field name="phoneNumber" type="string" length="10" />
         <field name="createdAt" type="datetime"  />
         <field name="updatedAt" type="datetime" nullable="true" />
         <field name="email" type="string" length="255" />

@@ -38,6 +38,13 @@ class RequestResolver
         $this->serializer = $serializer;
     }
 
+    /**
+     * @param Request $request
+     *
+     * @return AddUserInput
+     *
+     * @throws \App\Domain\Commun\Exceptions\ValidatorException
+     */
     public function resolve(Request $request): AddUserInput
     {
         //TODO Current client

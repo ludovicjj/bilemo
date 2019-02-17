@@ -51,13 +51,15 @@ class Client implements UserInterface
     {
         $this->id = Uuid::uuid4();
         $this->users = new ArrayCollection();
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = null;
+        $this->roles = ['ROLE_CLIENT'];
     }
 
     /**
      * @param string $username
      * @param string $password
      * @param string $email
-     * @throws \Exception
      */
     public function createClient(
         string $username,
@@ -67,11 +69,7 @@ class Client implements UserInterface
     {
         $this->username = $username;
         $this->password = $password;
-        $this->createdAt = new \DateTime();
-        $this->updatedAt = null;
-        $this->roles = ['ROLE_CLIENT'];
         $this->email = $email;
-
     }
 
     public function getId(): UuidInterface

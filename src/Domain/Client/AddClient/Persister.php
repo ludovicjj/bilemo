@@ -3,8 +3,10 @@
 namespace App\Domain\Client\AddClient;
 
 use App\Domain\Commun\Factory\ClientFactory;
+use App\Domain\Commun\Factory\ErrorsValidationFactory;
 use App\Domain\Entity\Client;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class Persister
 {
@@ -14,26 +16,30 @@ class Persister
     /** @var ClientFactory  */
     protected $clientFactory;
 
+    protected $validator;
+
     /**
      * Persister constructor.
      *
      * @param EntityManagerInterface $entityManager
      * @param ClientFactory $clientFactory
+     * @param ValidatorInterface $validator
      */
     public function __construct(
         EntityManagerInterface $entityManager,
-        ClientFactory $clientFactory
+        ClientFactory $clientFactory,
+        ValidatorInterface $validator
     )
     {
         $this->entityManager = $entityManager;
         $this->clientFactory = $clientFactory;
+        $this->validator = $validator;
     }
 
     /**
      * @param AddClientInput $input
-     *
      * @return array
-     *
+     * @throws \App\Domain\Commun\Exceptions\ValidatorException
      * @throws \Exception
      */
     public function persist(AddClientInput $input): array
@@ -46,6 +52,10 @@ class Persister
             $input->getPassword(),
             $input->getEmail()
         );
+
+        //TODO validation des contraintes de l'entité Client
+        $constraintList = $this->validator->validate($client);
+        ErrorsValidationFactory::buildError($constraintList);
 
         //TODO persist et flush de l'entité Client
         $this->entityManager->persist($client);

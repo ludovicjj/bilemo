@@ -92,7 +92,7 @@ class Client implements UserInterface
         return $this->createdAt;
     }
 
-    public function getUpdatedAt(): \DateTime
+    public function getUpdatedAt(): ? \DateTime
     {
         return $this->updatedAt;
     }
@@ -107,17 +107,14 @@ class Client implements UserInterface
         return $this->email;
     }
 
-    public function getSalt()
+    public function getSalt(): void
     {
-        return null;
+        return;
     }
 
     public function eraseCredentials()
     {
     }
 
-    public function getUsers()
-    {
-        return $this->users;
-    }
+
 }

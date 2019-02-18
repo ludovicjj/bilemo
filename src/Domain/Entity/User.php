@@ -104,4 +104,18 @@ class User
     {
         return $this->email;
     }
+
+    public function getClient()
+    {
+        return $this->client;
+    }
+
+    public function getCreatedAt(): \DateTime
+    {
+        return $this->createdAt;
+    }
+    public function getUpdatedAt(): ? \DateTime
+    {
+        return $this->updatedAt;
+    }
 }

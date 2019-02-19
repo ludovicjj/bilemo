@@ -3,7 +3,6 @@
 namespace App\Domain\User\ListUser;
 
 use App\Domain\Entity\Client;
-use App\Domain\Entity\User;
 use App\Domain\Repository\UserRepository;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -16,6 +15,7 @@ class Loader
     /** @var TokenStorageInterface  */
     protected $tokenStorage;
 
+    /** @var SerializerInterface  */
     protected $serializer;
 
     public function __construct(

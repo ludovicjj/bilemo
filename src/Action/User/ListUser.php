@@ -25,17 +25,15 @@ class ListUser
     }
 
     /**
-     * @Route("/api/users", name="list_users", methods={"GET"})
+     * @Route("/api/clients/{client_id}/users", name="list_users", methods={"GET"})
      */
     public function listUsers()
     {
         $datas = $this->loader->load();
 
-
         return JsonResponder::response(
             $datas,
-            Response::HTTP_OK,
-            []
+            Response::HTTP_OK
         );
     }
 }

@@ -4,7 +4,13 @@ namespace App\Domain\Entity;
 
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use JMS\Serializer\Annotation as Serializer;
 
+/**
+ * Class User
+ * @package App\Domain\Entity
+ * @Serializer\ExclusionPolicy("all")
+ */
 class User
 {
     /**
@@ -14,26 +20,36 @@ class User
 
     /**
      * @var string
+     * @Serializer\Expose()
+     * @Serializer\Groups({"list_user", "details_user"})
      */
     protected $firstName;
 
     /**
      * @var string
+     * @Serializer\Expose()
+     * @Serializer\Groups({"list_user", "details_user"})
      */
     protected $lastName;
 
     /**
      * @var string
+     * @Serializer\Expose()
+     * @Serializer\Groups({"details_user"})
      */
     protected $phoneNumber;
 
     /**
      * @var string
+     * @Serializer\Expose()
+     * @Serializer\Groups({"details_user"})
      */
     protected $email;
 
     /**
      * @var \DateTime
+     * @Serializer\Expose()
+     * @Serializer\Groups({"details_user"})
      */
     protected $createdAt;
 

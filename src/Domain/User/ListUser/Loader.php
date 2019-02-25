@@ -4,8 +4,10 @@ namespace App\Domain\User\ListUser;
 
 use App\Domain\Entity\Client;
 use App\Domain\Repository\UserRepository;
+use JMS\Serializer\SerializationContext;
+use JMS\Serializer\SerializerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Serializer\SerializerInterface;
+
 
 class Loader
 {
@@ -42,7 +44,12 @@ class Loader
         $users = $this->userRepository->findUserbyClientId($clientId);
 
         //TODO transforme object en string, format : json
-        $datas = $this->serializer->serialize($users, 'json', []);
+        //TODO Ne Serialize que les porpriété firstname et lastname
+        $datas = $this->serializer->serialize(
+            $users,
+            'json',
+            SerializationContext::create()->setGroups(['list_user'])
+        );
 
 
         return $datas;

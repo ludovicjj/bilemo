@@ -55,6 +55,8 @@ class User
 
     /**
      * @var \DateTime
+     * @Serializer\Expose()
+     * @Serializer\Groups({"details_user"})
      */
     protected $updatedAt;
 

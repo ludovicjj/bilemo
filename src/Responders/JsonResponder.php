@@ -7,19 +7,19 @@ use Symfony\Component\HttpFoundation\Response;
 class JsonResponder
 {
     /**
-     * @param string|null $datas
+     * @param string|null $data
      * @param int $statusCode
      * @param array $additionalHeaders
      * @return Response
      */
     public static function response(
-        ?string $datas,
+        ?string $data,
         int $statusCode = Response::HTTP_OK,
         array $additionalHeaders = []
     )
     {
         return new Response(
-            $datas,
+            $data,
             $statusCode,
             array_merge(
                 [

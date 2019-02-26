@@ -2,8 +2,8 @@
 
 namespace App\Action\User;
 
+use App\Domain\User\DeleteUser\Deleter;
 use App\Domain\User\DeleteUser\DeleteUserInput;
-use App\Domain\User\DeleteUser\Persister;
 use App\Domain\User\DeleteUser\RequestResolver;
 use App\Responders\JsonResponder;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,25 +15,25 @@ class DeleteUser
     /** @var RequestResolver  */
     protected $requestResolver;
 
-    /** @var Persister  */
-    protected $persister;
+    /** @var Deleter  */
+    protected $deleter;
 
     /**
      * DeleteUser constructor.
      * @param RequestResolver $requestResolver
-     * @param Persister $persister
+     * @param Deleter $deleter
      */
     public function __construct(
         RequestResolver $requestResolver,
-        Persister $persister
+        Deleter $deleter
     )
     {
         $this->requestResolver = $requestResolver;
-        $this->persister = $persister;
+        $this->deleter = $deleter;
     }
 
     /**
-     * @Route("/api/users/{id}", name="delete_user", methods={"DELETE"})
+     * @Route("/api/clients/{client_id}/users/{user_id}", name="delete_user", methods={"DELETE"})
      *
      * @param Request $request
      * @return Response
@@ -43,12 +43,11 @@ class DeleteUser
     {
         /** @var DeleteUserInput $input */
         $input = $this->requestResolver->resolve($request);
-        $this->persister->save($input);
+        $this->deleter->delete($input);
 
         return JsonResponder::response(
             null,
-            Response::HTTP_NO_CONTENT,
-            []
+            Response::HTTP_NO_CONTENT
         );
     }
 }

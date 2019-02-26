@@ -2,11 +2,10 @@
 
 namespace App\Domain\User\DeleteUser;
 
-
 use App\Domain\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 
-class Persister
+class Deleter
 {
     /** @var EntityManagerInterface  */
     protected $entityManager;
@@ -25,7 +24,7 @@ class Persister
     /**
      * @param DeleteUserInput $input
      */
-    public function save(DeleteUserInput $input): void
+    public function delete(DeleteUserInput $input): void
     {
         $user = $this->entityManager->getRepository(User::class)->findOneBy(['id' => $input->getUser()->getId()->toString()]);
         $this->entityManager->remove($user);

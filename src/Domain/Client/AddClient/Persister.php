@@ -16,6 +16,7 @@ class Persister
     /** @var ClientFactory  */
     protected $clientFactory;
 
+    /** @var ValidatorInterface  */
     protected $validator;
 
     /**

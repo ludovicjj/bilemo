@@ -19,11 +19,17 @@ class DeleteUserInput
 
     /**
      * @param User $user
-     * @return DeleteUserInput
      */
-    public function setUser(User $user): DeleteUserInput
+    public function setUser(User $user): void
     {
         $this->user = $user;
+    }
+
+    /**
+     * @return DeleteUserInput
+     */
+    public function getInput(): DeleteUserInput
+    {
         return $this;
     }
 }

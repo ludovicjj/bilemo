@@ -47,7 +47,6 @@ class RequestResolver
      */
     public function resolve(Request $request): AddUserInput
     {
-        //TODO Current client
         /** @var Client $client */
         $client = $this->tokenStorage->getToken()->getUser();
 

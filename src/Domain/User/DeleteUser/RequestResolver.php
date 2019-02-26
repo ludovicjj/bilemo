@@ -36,21 +36,17 @@ class RequestResolver
      */
     public function resolve(Request $request): DeleteUserInput
     {
-        //TODO Recuperation de id de user dans url
-        $userId = $request->attributes->get('id');
+        $userId = $request->attributes->get('user_id');
 
-        //TODO Recupere user correspondant a id
         /** @var User $user */
         $user = $this->entityManager->getRepository(User::class)->userExist($userId);
 
-        //TODO Si aucun user ne correspond a id
         if (!$user) {
-            throw new NotFoundHttpException(sprintf('aucun utilisateur ne correspond à l\'id : "%s"', $userId));
+            throw new NotFoundHttpException(sprintf('Aucun utilisateur ne correspond à l\'id : "%s"', $userId));
         }
 
-        //TODO Hydrate DeleteUserInput
-        $input = $this->deleteUserInput->setUser($user);
+        $this->deleteUserInput->setUser($user);
 
-        return $input;
+        return $this->deleteUserInput->getInput();
     }
 }

@@ -6,7 +6,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use JMS\Serializer\Annotation as JMS;
 
+/**
+ * Class Client
+ * @package App\Domain\Entity
+ * @JMS\ExclusionPolicy("all")
+ */
 class Client implements UserInterface
 {
     /**
@@ -40,6 +46,8 @@ class Client implements UserInterface
 
     /**
      * @var ArrayCollection
+     * @JMS\Expose()
+     * @JMS\Groups({"list_user"})
      */
     protected $users;
 
@@ -107,6 +115,14 @@ class Client implements UserInterface
         return $this->email;
     }
 
+    /**
+     * @return ArrayCollection
+     */
+    public function getUsers()
+    {
+        return $this->users;
+    }
+
     public function getSalt(): void
     {
         return;
@@ -115,6 +131,4 @@ class Client implements UserInterface
     public function eraseCredentials()
     {
     }
-
-
 }

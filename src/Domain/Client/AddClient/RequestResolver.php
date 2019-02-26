@@ -32,15 +32,11 @@ class RequestResolver
 
     /**
      * @param Request $request
-     *
      * @return AddClientInput
-     *
      * @throws \App\Domain\Commun\Exceptions\ValidatorException
      */
     public function resolve(Request $request): AddClientInput
     {
-        //TODO Recuperation des données du body de la request
-        //TODO Hydratation de AddClientInput
         /** @var AddClientInput $input */
         $input = $this->serializer->deserialize(
             $request->getContent(),

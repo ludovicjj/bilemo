@@ -41,10 +41,10 @@ class ShowUser
     public function show(Request $request)
     {
         $input = $this->requestResolver->resolve($request);
-        $datas = $this->normalizerData->normalize($input);
+        $data = $this->normalizerData->normalize($input);
 
         Return JsonResponder::response(
-            $datas,
+            $data,
             Response::HTTP_OK
         );
     }

@@ -38,7 +38,7 @@ class Persister
         $this->entityManager->flush();
 
         return [
-            'location' => sprintf('http://127.0.0.1:8000/api/users/%s', $user->getId())
+            'location' => sprintf('http://127.0.0.1:8000/api/clients/%s/users/%s',$user->getClient()->getId(), $user->getId())
         ];
     }
 }

@@ -2,8 +2,7 @@
 
 namespace App\Action\User;
 
-
-use App\Domain\User\ShowUser\Loader;
+use App\Domain\User\ShowUser\NormalizerData;
 use App\Domain\User\ShowUser\RequestResolver;
 use App\Responders\JsonResponder;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,21 +14,21 @@ class ShowUser
     /** @var RequestResolver  */
     protected $requestResolver;
 
-    /** @var Loader  */
-    protected $loader;
+    /** @var NormalizerData  */
+    protected $normalizerData;
 
     /**
      * ShowUser constructor.
      * @param RequestResolver $requestResolver
-     * @param Loader $loader
+     * @param NormalizerData $normalizerData
      */
     public function __construct(
         RequestResolver $requestResolver,
-        Loader $loader
+        NormalizerData $normalizerData
     )
     {
         $this->requestResolver = $requestResolver;
-        $this->loader = $loader;
+        $this->normalizerData = $normalizerData;
     }
 
     /**
@@ -42,7 +41,7 @@ class ShowUser
     public function show(Request $request)
     {
         $input = $this->requestResolver->resolve($request);
-        $datas = $this->loader->load($input);
+        $datas = $this->normalizerData->normalize($input);
 
         Return JsonResponder::response(
             $datas,

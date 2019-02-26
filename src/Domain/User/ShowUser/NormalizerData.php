@@ -5,10 +5,15 @@ namespace App\Domain\User\ShowUser;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
 
-class Loader
+class NormalizerData
 {
+    /** @var SerializerInterface  */
     protected $serializer;
 
+    /**
+     * NormalizerData constructor.
+     * @param SerializerInterface $serializer
+     */
     public function __construct(
         SerializerInterface $serializer
     )
@@ -16,7 +21,11 @@ class Loader
         $this->serializer = $serializer;
     }
 
-    public function load(ShowUserInput $input): string
+    /**
+     * @param ShowUserInput $input
+     * @return string
+     */
+    public function normalize(ShowUserInput $input): string
     {
         //Todo Serialize User
         $datas = $this->serializer->serialize(

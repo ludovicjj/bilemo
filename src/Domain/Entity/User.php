@@ -4,59 +4,63 @@ namespace App\Domain\Entity;
 
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
-use JMS\Serializer\Annotation as Serializer;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * Class User
  * @package App\Domain\Entity
- * @Serializer\ExclusionPolicy("all")
+ * @JMS\ExclusionPolicy("all")
  */
 class User
 {
     /**
      * @var UuidInterface
+     * @JMS\Expose()
+     * @JMS\Type("string")
+     * @JMS\Groups({"list_user", "details_user"})
      */
     protected $id;
 
     /**
      * @var string
-     * @Serializer\Expose()
-     * @Serializer\Groups({"list_user", "details_user"})
+     * @JMS\Expose()
+     * @JMS\Groups({"list_user", "details_user"})
      */
     protected $firstName;
 
     /**
      * @var string
-     * @Serializer\Expose()
-     * @Serializer\Groups({"list_user", "details_user"})
+     * @JMS\Expose()
+     * @JMS\Groups({"list_user", "details_user"})
      */
     protected $lastName;
 
     /**
      * @var string
-     * @Serializer\Expose()
-     * @Serializer\Groups({"details_user"})
+     * @JMS\Expose()
+     * @JMS\Groups({"details_user"})
      */
     protected $phoneNumber;
 
     /**
      * @var string
-     * @Serializer\Expose()
-     * @Serializer\Groups({"details_user"})
+     * @JMS\Expose()
+     * @JMS\Groups({"details_user"})
      */
     protected $email;
 
     /**
      * @var \DateTime
-     * @Serializer\Expose()
-     * @Serializer\Groups({"details_user"})
+     * @JMS\Expose()
+     * @JMS\Type("DateTime<'Y-m-d'>")
+     * @JMS\Groups({"details_user"})
      */
     protected $createdAt;
 
     /**
      * @var \DateTime
-     * @Serializer\Expose()
-     * @Serializer\Groups({"details_user"})
+     * @JMS\Expose()
+     * @JMS\Groups({"details_user"})
      */
     protected $updatedAt;
 
@@ -98,32 +102,32 @@ class User
         $this->client = $client;
     }
 
-    public function getId()
+    public function getId(): UuidInterface
     {
         return $this->id;
     }
 
-    public function getFirstName()
+    public function getFirstName(): string
     {
         return $this->firstName;
     }
 
-    public function getLastName()
+    public function getLastName(): string
     {
         return $this->lastName;
     }
 
-    public function getPhoneNumber()
+    public function getPhoneNumber(): string
     {
         return $this->phoneNumber;
     }
 
-    public function getEmail()
+    public function getEmail(): string
     {
         return $this->email;
     }
 
-    public function getClient()
+    public function getClient(): Client
     {
         return $this->client;
     }

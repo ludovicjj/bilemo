@@ -10,16 +10,15 @@ class AuthenticationSuccessListener
     public function onAuthenticationSuccessResponse(AuthenticationSuccessEvent $event)
     {
         $data = $event->getData();
-        $client = $event->getUser();
+        $user = $event->getUser();
 
-        if (!$client instanceof UserInterface) {
+        if (!$user instanceof UserInterface) {
             return;
         }
 
-        $data['client'] = [
-            'username' => $client->getUsername(),
-            'email' => $client->getEmail(),
-            'roles' => $client->getRoles()
+        $data['user'] = [
+            'username' => $user->getUsername(),
+            'roles' => $user->getRoles()
         ];
 
         $event->setData($data);

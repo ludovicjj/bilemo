@@ -1,2 +1,5 @@
 api_client_login:
     path: /api/login/client
+
+api_client_maker:
+    path: /api/login/maker

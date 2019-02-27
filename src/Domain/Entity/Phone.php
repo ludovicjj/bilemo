@@ -7,34 +7,28 @@ use Ramsey\Uuid\UuidInterface;
 
 class Phone
 {
-    /**
-     * @var UuidInterface
-     */
+    /** @var UuidInterface  */
     protected $id;
-    /**
-     * @var string
-     */
+
+    /** @var string */
     protected $name;
-    /**
-     * @var string
-     */
+
+    /** @var string */
     protected $description;
-    /**
-     * @var int
-     */
+
+    /** @var string */
     protected $price;
-    /**
-     * @var \DateTime
-     */
+
+    /** @var string */
+    protected $stock;
+
+    /** @var \DateTime  */
     protected $createdAt;
-    /**
-     * @var \DateTime
-     */
+
+    /** @var null|\DateTime  */
     protected $updatedAt;
 
-    /**
-     * @var Maker
-     */
+    /** @var Maker */
     protected $maker;
 
     /**
@@ -44,44 +38,69 @@ class Phone
     public function __construct()
     {
         $this->id = Uuid::uuid4();
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = null;
     }
 
     /**
      * @param string $name
      * @param string $description
-     * @param int $price
+     * @param string $price
+     * @param string $stock
      * @param Maker $maker
-     * @throws \Exception
      */
     public function createPhone(
         string $name,
         string $description,
-        int $price,
+        string $price,
+        string $stock,
         Maker $maker
     )
     {
         $this->name = $name;
         $this->description = $description;
         $this->price = $price;
-        $this->createdAt = new \DateTime();
+        $this->stock = $stock;
         $this->maker = $maker;
     }
 
-    /**
-     * @param string $name
-     * @param string $description
-     * @param int $price
-     * @throws \Exception
-     */
-    public function updatePhone(
-        string $name,
-        string $description,
-        int $price
-    )
+    public function getId(): UuidInterface
     {
-        $this->name =$name;
-        $this->description = $description;
-        $this->price = $price;
-        $this->updatedAt = new \DateTime();
+        return $this->id;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    public function getPrice(): string
+    {
+        return $this->price;
+    }
+
+    public function getStock(): string
+    {
+        return $this->stock;
+    }
+
+    public function getCreatedAt(): \DateTime
+    {
+        return $this->createdAt;
+    }
+
+    public function getUpdatedAt(): ? \DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    public function getMaker(): Maker
+    {
+        return $this->maker;
     }
 }

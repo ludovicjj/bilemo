@@ -16,18 +16,32 @@ security:
                 class: App\Domain\Entity\Maker
                 property: username
 
+        chain_provider:
+            chain:
+                providers: [client_provider, maker_provider]
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
         api_login_client:
-            pattern:  ^/api/login
+            pattern:  ^/api/login/client
             stateless: true
             anonymous: true
             provider: client_provider
             json_login:
                 check_path:               /api/login/client
+                success_handler:          lexik_jwt_authentication.handler.authentication_success
+                failure_handler:          lexik_jwt_authentication.handler.authentication_failure
+
+        api_login_maker:
+            pattern:  ^/api/login/maker
+            stateless: true
+            anonymous: true
+            provider: maker_provider
+            json_login:
+                check_path:               /api/login/maker
                 success_handler:          lexik_jwt_authentication.handler.authentication_success
                 failure_handler:          lexik_jwt_authentication.handler.authentication_failure
 
@@ -39,7 +53,7 @@ security:
         api:
             pattern:   ^/api
             stateless: true
-            provider: client_provider
+            provider: chain_provider
             guard:
                 authenticators:
                     - lexik_jwt_authentication.jwt_token_authenticator
@@ -48,4 +62,5 @@ security:
         - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/registration, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/clients, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api/makers, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }

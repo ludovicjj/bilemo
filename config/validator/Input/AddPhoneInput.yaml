@@ -1,0 +1,18 @@
+App\Domain\Phone\AddPhone\AddPhoneInput:
+    properties:
+        name:
+            - NotBlank:
+                message: Veuillez saisir le nom du model.
+            - Length:
+                max: 255
+                maxMessage: Le nom du model ne peut pas excéder {{ limit }} caractères.
+
+        description:
+            - NotBlank:
+                message: Veuillez saisir un descriptif.
+        price:
+            - NotBlank:
+                message: Veuillez définir un prix.
+        stock:
+          - NotBlank:
+                message: Veuillez définir un stock.

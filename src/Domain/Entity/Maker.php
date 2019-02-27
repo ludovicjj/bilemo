@@ -5,35 +5,51 @@ namespace App\Domain\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
-class Maker
+class Maker implements UserInterface
 {
-    /**
-     * @var UuidInterface
-     */
+    /** @var UuidInterface  */
     protected $id;
-    /**
-     * @var string
-     */
-    protected $name;
 
-    /**
-     * @var ArrayCollection
-     */
+    /** @var string */
+    protected $username;
+
+    /** @var string */
+    protected $password;
+
+    /** @var array  */
+    protected $roles;
+
+    /** @var \DateTime  */
+    protected $createdAt;
+
+    /** @var null|\DateTime  */
+    protected $updatedAt;
+
+    /** @var ArrayCollection  */
     protected $phones;
 
     /**
      * Maker constructor.
-     * @param string $name
      * @throws \Exception
      */
-    public function __construct(
-        string $name
-    )
+    public function __construct()
     {
         $this->id = Uuid::uuid4();
-        $this->name = $name;
         $this->phones = new ArrayCollection();
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = null;
+        $this->roles = ['ROLE_MAKER'];
+    }
+
+    public function createMaker(
+        string $username,
+        string $password
+    )
+    {
+        $this->username = $username;
+        $this->password = $password;
     }
 
     public function getId(): UuidInterface
@@ -41,8 +57,43 @@ class Maker
         return $this->id;
     }
 
-    public function getName(): string
+    public function getUsername(): string
     {
-        return $this->name;
+        return $this->username;
+    }
+
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function getRoles(): array
+    {
+        return $this->roles;
+    }
+
+    public function getCreatedAt(): \DateTime
+    {
+        return $this->createdAt;
+    }
+
+    public function getUpdatedAt(): ? \DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    public function getPhones(): ArrayCollection
+    {
+        return $this->phones;
+    }
+
+
+    public function getSalt()
+    {
+        return;
+    }
+
+    public function eraseCredentials()
+    {
     }
 }

@@ -1,0 +1,16 @@
+App\Domain\Maker\AddMaker\AddMakerInput:
+    properties:
+        username:
+            - NotBlank:
+                message: 'Veuillez choisir un pseudo.'
+            - Length:
+                max: 255
+                maxMessage: 'Votre pseudo est trop long (Maximum {{ limit }} caractères).'
+
+        password:
+            - NotBlank:
+                message: 'Veuillez choisir un mot de passe.'
+            - Length:
+                max: 255
+                maxMessage: 'Votre mot de passe est trop long (Maximum {{ limit }} caractères).'
+

@@ -2,12 +2,20 @@ security:
     encoders:
         App\Domain\Entity\Client:
             algorithm: bcrypt
+        App\Domain\Entity\Maker:
+            algorithm: bcrypt
 
     providers:
         client_provider:
             entity:
                 class: App\Domain\Entity\Client
                 property: username
+
+        maker_provider:
+            entity:
+                class: App\Domain\Entity\Maker
+                property: username
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -23,7 +31,7 @@ security:
                 success_handler:          lexik_jwt_authentication.handler.authentication_success
                 failure_handler:          lexik_jwt_authentication.handler.authentication_failure
 
-        api_registration_client:
+        api_registration:
             pattern: ^/api/registration
             stateless: true
             anonymous: true

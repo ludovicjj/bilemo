@@ -6,7 +6,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use JMS\Serializer\Annotation as JMS;
 
+/**
+ * Class Maker
+ * @package App\Domain\Entity
+ * @JMS\ExclusionPolicy("all")
+ */
 class Maker implements UserInterface
 {
     /** @var UuidInterface  */
@@ -27,7 +33,11 @@ class Maker implements UserInterface
     /** @var null|\DateTime  */
     protected $updatedAt;
 
-    /** @var ArrayCollection  */
+    /**
+     * @var ArrayCollection
+     * @JMS\Expose()
+     * @JMS\Groups({"list_phone"})
+     */
     protected $phones;
 
     /**
@@ -82,7 +92,7 @@ class Maker implements UserInterface
         return $this->updatedAt;
     }
 
-    public function getPhones(): ArrayCollection
+    public function getPhones()
     {
         return $this->phones;
     }

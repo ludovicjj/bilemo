@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\User\ShowUser;
+namespace App\Domain\Phone\ListPhone;
 
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
@@ -21,17 +21,12 @@ class NormalizerData
         $this->serializer = $serializer;
     }
 
-    /**
-     * @param ShowUserInput $input
-     * @return string
-     */
-    public function normalize(ShowUserInput $input): string
+    public function normalize(ListPhoneInput $input)
     {
-        //Todo Serialize User
         $data = $this->serializer->serialize(
-            $input->getUser(),
+            $input->getPhone(),
             'json',
-            SerializationContext::create()->setGroups(['details_user'])
+            SerializationContext::create()->setGroups(['list_phone'])
         );
 
         return $data;

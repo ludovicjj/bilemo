@@ -1,27 +1,19 @@
 <?php
 
-namespace App\Action\User;
+namespace App\Action\Phone;
 
-use App\Domain\User\ShowUser\NormalizerData;
-use App\Domain\User\ShowUser\RequestResolver;
+use App\Domain\Phone\ShowPhone\NormalizerData;
+use App\Domain\Phone\ShowPhone\RequestResolver;
 use App\Responders\JsonResponder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ShowUser
+class ShowPhone
 {
-    /** @var RequestResolver  */
     protected $requestResolver;
-
-    /** @var NormalizerData  */
     protected $normalizerData;
 
-    /**
-     * ShowUser constructor.
-     * @param RequestResolver $requestResolver
-     * @param NormalizerData $normalizerData
-     */
     public function __construct(
         RequestResolver $requestResolver,
         NormalizerData $normalizerData
@@ -32,8 +24,7 @@ class ShowUser
     }
 
     /**
-     * @Route("/api/clients/{client_id}/users/{user_id}", name="show_user", methods={"GET"})
-     *
+     * @Route("/api/makers/{maker_id}/phones/{phone_id}", name="show_phone", methods={"GET"})
      * @param Request $request
      * @return Response
      * @throws \Doctrine\ORM\NonUniqueResultException

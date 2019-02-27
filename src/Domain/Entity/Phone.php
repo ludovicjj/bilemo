@@ -4,28 +4,60 @@ namespace App\Domain\Entity;
 
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use JMS\Serializer\Annotation as JMS;
 
 class Phone
 {
-    /** @var UuidInterface  */
+    /**
+     * @var UuidInterface
+     * @JMS\Expose()
+     * @JMS\Type("string")
+     * @JMS\Groups({"list_phone", "details_phone"})
+     */
     protected $id;
 
-    /** @var string */
+    /**
+     * @var string
+     * @JMS\Expose()
+     * @JMS\Groups({"list_phone", "details_phone"})
+     */
     protected $name;
 
-    /** @var string */
+    /**
+     * @var string
+     * @JMS\Expose()
+     * @JMS\Groups({"details_phone", "details_phone"})
+     */
     protected $description;
 
-    /** @var string */
+    /**
+     * @var string
+     * @JMS\Expose()
+     * @JMS\Groups({"list_phone", "details_phone"})
+     */
     protected $price;
 
-    /** @var string */
+    /**
+     * @var string
+     * @JMS\Expose()
+     * @JMS\Groups({"details_phone"})
+     */
     protected $stock;
 
-    /** @var \DateTime  */
+    /**
+     * @var \DateTime
+     * @JMS\Expose()
+     * @JMS\Type("DateTime<'Y-m-d'>")
+     * @JMS\Groups({"details_phone"})
+     */
     protected $createdAt;
 
-    /** @var null|\DateTime  */
+    /**
+     * @var null|\DateTime
+     * @JMS\Expose()
+     * @JMS\Type("DateTime<'Y-m-d'>")
+     * @JMS\Groups({"details_phone"})
+     */
     protected $updatedAt;
 
     /** @var Maker */

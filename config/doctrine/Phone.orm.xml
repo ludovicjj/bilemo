@@ -11,6 +11,10 @@
         <field name="stock" type="text" />
         <field name="createdAt" type="datetime"  />
         <field name="updatedAt" type="datetime" nullable="true" />
-        <many-to-one field="maker" target-entity="App\Domain\Entity\Maker" inversed-by="phones" />
+        <many-to-one field="maker" target-entity="App\Domain\Entity\Maker" inversed-by="phones" >
+            <cascade>
+                <cascade-persist/>
+            </cascade>
+        </many-to-one>
     </entity>
 </doctrine-mapping>

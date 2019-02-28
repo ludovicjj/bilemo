@@ -31,10 +31,12 @@ class ListPhone
     }
 
     /**
-     * @Route("/api/makers/{maker_id}/phones", name="list_phone", methods={"GET"})
+     * @Route("/api/clients/{client_id}/phones", name="list_phone", methods={"GET"})
      */
     public function listPhone()
     {
+        dump('a refaire');
+        die;
         $input = $this->loader->load();
         $data = $this->normalizerData->normalize($input);
 

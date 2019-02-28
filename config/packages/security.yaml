@@ -2,23 +2,12 @@ security:
     encoders:
         App\Domain\Entity\Client:
             algorithm: bcrypt
-        App\Domain\Entity\Maker:
-            algorithm: bcrypt
 
     providers:
         client_provider:
             entity:
                 class: App\Domain\Entity\Client
                 property: username
-
-        maker_provider:
-            entity:
-                class: App\Domain\Entity\Maker
-                property: username
-
-        chain_provider:
-            chain:
-                providers: [client_provider, maker_provider]
 
     firewalls:
         dev:
@@ -35,16 +24,6 @@ security:
                 success_handler:          lexik_jwt_authentication.handler.authentication_success
                 failure_handler:          lexik_jwt_authentication.handler.authentication_failure
 
-        api_login_maker:
-            pattern:  ^/api/login/maker
-            stateless: true
-            anonymous: true
-            provider: maker_provider
-            json_login:
-                check_path:               /api/login/maker
-                success_handler:          lexik_jwt_authentication.handler.authentication_success
-                failure_handler:          lexik_jwt_authentication.handler.authentication_failure
-
         api_registration:
             pattern: ^/api/registration
             stateless: true
@@ -53,7 +32,7 @@ security:
         api:
             pattern:   ^/api
             stateless: true
-            provider: chain_provider
+            provider: client_provider
             guard:
                 authenticators:
                     - lexik_jwt_authentication.jwt_token_authenticator
@@ -62,5 +41,4 @@ security:
         - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/registration, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/clients, roles: IS_AUTHENTICATED_FULLY }
-        - { path: ^/api/makers, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }

@@ -5,61 +5,30 @@ namespace App\Domain\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
-use JMS\Serializer\Annotation as JMS;
 
-/**
- * Class Maker
- * @package App\Domain\Entity
- * @JMS\ExclusionPolicy("all")
- */
-class Maker implements UserInterface
+class Maker
 {
     /** @var UuidInterface  */
     protected $id;
 
     /** @var string */
-    protected $username;
+    protected $name;
 
-    /** @var string */
-    protected $password;
-
-    /** @var array  */
-    protected $roles;
-
-    /** @var \DateTime  */
-    protected $createdAt;
-
-    /** @var null|\DateTime  */
-    protected $updatedAt;
-
-    /**
-     * @var ArrayCollection
-     * @JMS\Expose()
-     * @JMS\Groups({"list_phone"})
-     */
+    /** @var ArrayCollection  */
     protected $phones;
 
     /**
      * Maker constructor.
+     * @param string $name
      * @throws \Exception
      */
-    public function __construct()
-    {
-        $this->id = Uuid::uuid4();
-        $this->phones = new ArrayCollection();
-        $this->createdAt = new \DateTime();
-        $this->updatedAt = null;
-        $this->roles = ['ROLE_MAKER'];
-    }
-
-    public function createMaker(
-        string $username,
-        string $password
+    public function __construct(
+        string $name
     )
     {
-        $this->username = $username;
-        $this->password = $password;
+        $this->id = Uuid::uuid4();
+        $this->name = $name;
+        $this->phones = new ArrayCollection();
     }
 
     public function getId(): UuidInterface
@@ -67,43 +36,13 @@ class Maker implements UserInterface
         return $this->id;
     }
 
-    public function getUsername(): string
+    public function getName(): string
     {
-        return $this->username;
-    }
-
-    public function getPassword(): string
-    {
-        return $this->password;
-    }
-
-    public function getRoles(): array
-    {
-        return $this->roles;
-    }
-
-    public function getCreatedAt(): \DateTime
-    {
-        return $this->createdAt;
-    }
-
-    public function getUpdatedAt(): ? \DateTime
-    {
-        return $this->updatedAt;
+        return $this->name;
     }
 
     public function getPhones()
     {
         return $this->phones;
-    }
-
-
-    public function getSalt()
-    {
-        return;
-    }
-
-    public function eraseCredentials()
-    {
     }
 }

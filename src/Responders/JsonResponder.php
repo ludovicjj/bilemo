@@ -23,7 +23,8 @@ class JsonResponder
             $statusCode,
             array_merge(
                 [
-                    'content-type' => 'application/json'
+                    'content-type' => 'application/json',
+                    'X-API-Version' => getenv('API_VERSION'),
                 ],
                 $additionalHeaders
             )

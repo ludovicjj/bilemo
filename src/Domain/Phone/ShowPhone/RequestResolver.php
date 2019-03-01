@@ -35,7 +35,7 @@ class RequestResolver
         $phone = $this->entityManager->getRepository(Phone::class)->phoneExist($phoneId);
 
         if (!$phone) {
-            throw new NotFoundHttpException(sprintf('Aucun utilisateur ne correspond à l\'id : "%s"', $phoneId));
+            throw new NotFoundHttpException(sprintf('Aucun téléphone ne correspond à l\'id : "%s"', $phoneId));
         }
 
         $this->showPhoneInput->setPhone($phone);

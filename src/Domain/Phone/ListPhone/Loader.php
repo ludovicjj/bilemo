@@ -2,37 +2,35 @@
 
 namespace App\Domain\Phone\ListPhone;
 
-use App\Domain\Entity\Maker;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use App\Domain\Entity\Phone;
+use Doctrine\ORM\EntityManagerInterface;
 
 class Loader
 {
-    /** @var TokenStorageInterface  */
-    protected $tokenStorage;
-
     /** @var ListPhoneInput  */
     protected $listPhoneInput;
 
+    /** @var EntityManagerInterface  */
+    protected $entityManager;
+
     /**
      * Loader constructor.
-     * @param TokenStorageInterface $tokenStorage
      * @param ListPhoneInput $listPhoneInput
+     * @param EntityManagerInterface $entityManager
      */
     public function __construct(
-        TokenStorageInterface $tokenStorage,
-        ListPhoneInput $listPhoneInput
+        ListPhoneInput $listPhoneInput,
+        EntityManagerInterface $entityManager
     )
     {
-        $this->tokenStorage = $tokenStorage;
         $this->listPhoneInput = $listPhoneInput;
+        $this->entityManager = $entityManager;
     }
 
     public function load()
     {
-        /** @var Maker $maker */
-        $maker = $this->tokenStorage->getToken()->getUser();
-        $phone = $maker->getPhones();
-        $this->listPhoneInput->setPhone($phone);
+        $phones = $this->entityManager->getRepository(Phone::class)->findAll();
+        $this->listPhoneInput->setPhone($phones);
 
         return $this->listPhoneInput->getInput();
     }

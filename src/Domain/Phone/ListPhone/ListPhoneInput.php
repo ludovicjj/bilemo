@@ -2,19 +2,17 @@
 
 namespace App\Domain\Phone\ListPhone;
 
-use Doctrine\ORM\PersistentCollection;
-
 class ListPhoneInput
 {
 
     protected $phone;
 
-    public function setPhone(PersistentCollection $phone): void
+    public function setPhone(array $phone): void
     {
         $this->phone = $phone;
     }
 
-    public function getPhone(): PersistentCollection
+    public function getPhone(): array
     {
         return $this->phone;
     }

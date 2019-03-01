@@ -11,9 +11,17 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ShowPhone
 {
+    /** @var RequestResolver  */
     protected $requestResolver;
+
+    /** @var NormalizerData  */
     protected $normalizerData;
 
+    /**
+     * ShowPhone constructor.
+     * @param RequestResolver $requestResolver
+     * @param NormalizerData $normalizerData
+     */
     public function __construct(
         RequestResolver $requestResolver,
         NormalizerData $normalizerData
@@ -24,7 +32,7 @@ class ShowPhone
     }
 
     /**
-     * @Route("/api/makers/{maker_id}/phones/{phone_id}", name="show_phone", methods={"GET"})
+     * @Route("/api/clients/{client_id}/phones/{phone_id}", name="show_phone", methods={"GET"})
      * @param Request $request
      * @return Response
      * @throws \Doctrine\ORM\NonUniqueResultException

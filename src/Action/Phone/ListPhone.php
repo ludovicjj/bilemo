@@ -35,9 +35,8 @@ class ListPhone
      */
     public function listPhone()
     {
-        dump('a refaire');
-        die;
         $input = $this->loader->load();
+
         $data = $this->normalizerData->normalize($input);
 
         return JsonResponder::response(

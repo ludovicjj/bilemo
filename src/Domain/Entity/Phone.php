@@ -26,7 +26,7 @@ class Phone
     /**
      * @var string
      * @JMS\Expose()
-     * @JMS\Groups({"details_phone", "details_phone"})
+     * @JMS\Groups({"details_phone"})
      */
     protected $description;
 

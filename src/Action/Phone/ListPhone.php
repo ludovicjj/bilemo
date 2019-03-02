@@ -32,7 +32,7 @@ class ListPhone
     }
 
     /**
-     * @Route("/api/clients/phones", name="list_phone", methods={"GET"})
+     * @Route("/api/phones", name="list_phone", methods={"GET"})
      * @SWG\Response(
      *     response=200,
      *     description="Returns the rewards of an user"

@@ -1,5 +1,7 @@
 api_client_login:
     path: /api/login/client
 
-api_client_maker:
-    path: /api/login/maker
+app.swagger_ui:
+    path: /api/doc
+    methods: GET
+    defaults: { _controller: nelmio_api_doc.controller.swagger_ui }

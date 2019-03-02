@@ -7,6 +7,7 @@ use App\Domain\Phone\ListPhone\NormalizerData;
 use App\Responders\JsonResponder;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Swagger\Annotations as SWG;
 
 class ListPhone
 {
@@ -31,7 +32,11 @@ class ListPhone
     }
 
     /**
-     * @Route("/api/clients/{client_id}/phones", name="list_phone", methods={"GET"})
+     * @Route("/api/clients/phones", name="list_phone", methods={"GET"})
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns the rewards of an user"
+     * )
      */
     public function listPhone()
     {

@@ -32,7 +32,7 @@ class ShowPhone
     }
 
     /**
-     * @Route("/api/clients/{client_id}/phones/{phone_id}", name="show_phone", methods={"GET"})
+     * @Route("/api/clients/phones/{phone_id}", name="show_phone", methods={"GET"})
      * @param Request $request
      * @return Response
      * @throws \Doctrine\ORM\NonUniqueResultException

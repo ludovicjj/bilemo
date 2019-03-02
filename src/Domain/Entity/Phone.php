@@ -4,59 +4,71 @@ namespace App\Domain\Entity;
 
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
-use JMS\Serializer\Annotation as JMS;
+use JMS\Serializer\Annotation as Serializer;
+use Hateoas\Configuration\Annotation as Hateoas;
 
+/**
+ * Class Phone
+ * @package App\Domain\Entity
+ * @Hateoas\Relation(
+ *      "self",
+ *      href = @Hateoas\Route(
+ *          "show_phone",
+ *          parameters = { "phone_id" = "expr(object.getId())" }
+ *      )
+ * )
+ */
 class Phone
 {
     /**
      * @var UuidInterface
-     * @JMS\Expose()
-     * @JMS\Type("string")
-     * @JMS\Groups({"list_phone", "details_phone"})
+     * @Serializer\Expose()
+     * @Serializer\Type("string")
+     * @Serializer\Groups({"list_phone", "details_phone"})
      */
     protected $id;
 
     /**
      * @var string
-     * @JMS\Expose()
-     * @JMS\Groups({"list_phone", "details_phone"})
+     * @Serializer\Expose()
+     * @Serializer\Groups({"list_phone", "details_phone"})
      */
     protected $name;
 
     /**
      * @var string
-     * @JMS\Expose()
-     * @JMS\Groups({"details_phone"})
+     * @Serializer\Expose()
+     * @Serializer\Groups({"details_phone"})
      */
     protected $description;
 
     /**
      * @var string
-     * @JMS\Expose()
-     * @JMS\Groups({"list_phone", "details_phone"})
+     * @Serializer\Expose()
+     * @Serializer\Groups({"list_phone", "details_phone"})
      */
     protected $price;
 
     /**
      * @var string
-     * @JMS\Expose()
-     * @JMS\Groups({"details_phone"})
+     * @Serializer\Expose()
+     * @Serializer\Groups({"details_phone"})
      */
     protected $stock;
 
     /**
      * @var \DateTime
-     * @JMS\Expose()
-     * @JMS\Type("DateTime<'Y-m-d'>")
-     * @JMS\Groups({"details_phone"})
+     * @Serializer\Expose()
+     * @Serializer\Type("DateTime<'Y-m-d'>")
+     * @Serializer\Groups({"details_phone"})
      */
     protected $createdAt;
 
     /**
      * @var null|\DateTime
-     * @JMS\Expose()
-     * @JMS\Type("DateTime<'Y-m-d'>")
-     * @JMS\Groups({"details_phone"})
+     * @Serializer\Expose()
+     * @Serializer\Type("DateTime<'Y-m-d'>")
+     * @Serializer\Groups({"details_phone"})
      */
     protected $updatedAt;
 

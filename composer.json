@@ -8,8 +8,10 @@
         "doctrine/doctrine-fixtures-bundle": "^3.1",
         "jms/serializer-bundle": "^3.1",
         "lexik/jwt-authentication-bundle": "^2.6",
+        "nelmio/api-doc-bundle": "^3.4",
         "ramsey/uuid-doctrine": "^1.5",
         "sensio/framework-extra-bundle": "^5.2",
+        "symfony/asset": "4.2.*",
         "symfony/console": "4.2.*",
         "symfony/dotenv": "4.2.*",
         "symfony/flex": "^1.1",
@@ -17,8 +19,11 @@
         "symfony/orm-pack": "^1.0",
         "symfony/security-bundle": "4.2.*",
         "symfony/serializer": "4.2.*",
+        "symfony/twig-bundle": "4.2.*",
         "symfony/validator": "4.2.*",
-        "symfony/yaml": "4.2.*"
+        "symfony/yaml": "4.2.*",
+        "willdurand/hateoas": "^3.0",
+        "willdurand/hateoas-bundle": "dev-master"
     },
     "config": {
         "preferred-install": {

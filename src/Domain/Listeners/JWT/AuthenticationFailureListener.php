@@ -9,7 +9,7 @@ class AuthenticationFailureListener
 {
     public function onAuthenticationFailureResponse(AuthenticationFailureEvent $event)
     {
-        $data = 'Mauvais identifiants';
+        $data = 'Bad credentials, please verify that your username/password are correctly set';
 
         $response = new JWTAuthenticationFailureResponse($data);
 

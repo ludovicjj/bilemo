@@ -45,8 +45,6 @@ class Persister
      */
     public function persist(AddClientInput $input): array
     {
-        //TODO hydratation de l'entité Client
-        //TODO Hash du password du Client
         /** @var Client $client */
         $client = $this->clientFactory->create(
             $input->getUsername(),
@@ -54,11 +52,9 @@ class Persister
             $input->getEmail()
         );
 
-        //TODO validation des contraintes de l'entité Client
         $constraintList = $this->validator->validate($client);
         ErrorsValidationFactory::buildError($constraintList);
 
-        //TODO persist et flush de l'entité Client
         $this->entityManager->persist($client);
         $this->entityManager->flush();
 

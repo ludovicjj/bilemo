@@ -9,7 +9,7 @@ class JWTNotFoundListener
 {
     public function onJWTNotFound(JWTNotFoundEvent $event)
     {
-        $data = "Merci de vous authentifier.";
+        $data = "You must login to access this resource.";
 
         $response = new JsonResponse($data, 403);
 

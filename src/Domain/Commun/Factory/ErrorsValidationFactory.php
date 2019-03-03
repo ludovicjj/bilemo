@@ -9,6 +9,10 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 class ErrorsValidationFactory
 {
+    /**
+     * @param ConstraintViolationListInterface $constraintViolationList
+     * @throws ValidatorException
+     */
     public static function buildError(ConstraintViolationListInterface $constraintViolationList)
     {
         if (count($constraintViolationList) > 0) {
@@ -17,7 +21,7 @@ class ErrorsValidationFactory
             foreach ($constraintViolationList as $constraint) {
                 $errors[$constraint->getPropertyPath()][] = $constraint->getMessage();
             }
-            //TODO Custom exception
+
             throw new ValidatorException(
                 Response::HTTP_BAD_REQUEST,
                 $errors

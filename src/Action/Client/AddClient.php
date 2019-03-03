@@ -9,6 +9,7 @@ use App\Responders\JsonResponder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Swagger\Annotations as SWG;
 
 class AddClient
 {
@@ -35,6 +36,23 @@ class AddClient
 
     /**
      * @Route("/api/registration/client", name="add_client", methods={"POST"})
+     * @SWG\Parameter(
+     *     in="body",
+     *     name="body",
+     *     @SWG\Schema(ref="#/definitions/AddClientInput"),
+     *     description="Request payload contain all informations",
+     *     required=true
+     * )
+     * @SWG\Response(
+     *     response=201,
+     *     description="Successful submit."
+     * )
+     *
+     * @SWG\Response(
+     *     response=400,
+     *     description="Bad request. Check your request."
+     * )
+     *
      * @param Request $request
      * @throws \App\Domain\Commun\Exceptions\ValidatorException
      * @throws \Exception

@@ -1,9 +1,131 @@
 nelmio_api_doc:
     documentation:
         info:
-            title: My App
-            description: This is an awesome app!
+            title: Bilemo Api
+            description: API description for Bilemo App
             version: 1.0.0
+        securityDefinitions:
+            Bearer:
+                type: apiKey
+                description: 'Value: Bearer {TOKEN}, obtain by /api/login/client'
+                name: Authorization
+                in: header
+        definitions:
+            AddClientInput:
+                type: object
+                properties:
+                    username:
+                        type: string
+                        required: true
+                    password:
+                        type: string
+                        required: true
+                    email:
+                        type: string
+                        required: true
+            AddUserInput:
+                type: object
+                properties:
+                    firstName:
+                        type: string
+                        required: true
+                    lastName:
+                        type: string
+                        required: true
+                    phoneNumber:
+                        type: string
+                        required: true
+                    email:
+                        type: string
+                        required: true
+            ListUserOutput:
+                items:
+                    $ref: "#/definitions/ListUserItemsOutput"
+            ListUserItemsOutput:
+                type: object
+                properties:
+                    id:
+                        type: string
+                        required: true
+                    first_name:
+                        type: string
+                        required: true
+                    last_name:
+                        type: string
+                        required: true
+            ListPhoneOutput:
+                items:
+                    $ref: "#/definitions/ListPhoneItemsOutput"
+            ListPhoneItemsOutput:
+                type: object
+                properties:
+                    id:
+                        type: string
+                        required: true
+                    name:
+                        type: string
+                        required: true
+                    price:
+                        type: string
+                        required: true
+            ShowPhoneOutput:
+                items:
+                    $ref: "#/definitions/ShowPhoneItemsOutput"
+            ShowPhoneItemsOutput:
+                type: object
+                properties:
+                    id:
+                        type: string
+                        required: true
+                    name:
+                        type: string
+                        required: true
+                    description:
+                        type: string
+                        required: true
+                    price:
+                        type: string
+                        required: true
+                    stock:
+                        type: string
+                        required: true
+                    created_at:
+                        type: string
+                        format: date-time
+                        required: true
+                    updated_at:
+                        type: string
+                        format: date-time
+                        required: false
+            ShowUserOutput:
+                items:
+                    $ref: "#/definitions/ShowUserItemsOutput"
+            ShowUserItemsOutput:
+                type: object
+                properties:
+                    id:
+                        type: string
+                        required: true
+                    first_name:
+                        type: string
+                        required: true
+                    last_name:
+                        type: string
+                        required: true
+                    phone_number:
+                        type: string
+                        required: true
+                    email:
+                        type: string
+                        required: true
+                    created_at:
+                        type: string
+                        format: date-time
+                        required: true
+                    updated_at:
+                        type: string
+                        format: date-time
+                        required: false
     areas:
         path_patterns:
             - ^/api(?!/doc$)

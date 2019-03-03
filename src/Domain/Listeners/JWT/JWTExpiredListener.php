@@ -12,6 +12,6 @@ class JWTExpiredListener
         /** @var JWTAuthenticationFailureResponse */
         $response = $event->getResponse();
 
-        $response->setMessage('Votre session est expiré. Merci de vous reconnecter.');
+        $response->setMessage('Your token is expired, please renew it.');
     }
 }

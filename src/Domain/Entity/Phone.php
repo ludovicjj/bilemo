@@ -138,7 +138,7 @@ class Phone
         return $this->createdAt;
     }
 
-    public function getUpdatedAt(): ? \DateTime
+    public function getUpdatedAt(): ?\DateTime
     {
         return $this->updatedAt;
     }

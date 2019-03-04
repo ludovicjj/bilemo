@@ -50,3 +50,9 @@ services:
     App\Domain\Listeners\JWT\JWTNotFoundListener:
         tags:
             - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_not_found, method: onJWTNotFound }
+
+    #TEST VOTER
+    client_voter:
+        class: App\Domain\Security\ClientVoter
+        tags:
+            - { name: security.voter }

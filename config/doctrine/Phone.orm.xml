@@ -7,8 +7,8 @@
         <id name="id" type="uuid"  />
         <field name="name" type="string" length="255" />
         <field name="description" type="text" />
-        <field name="price" type="string" length="255"/>
-        <field name="stock" type="text" />
+        <field name="price" type="float" />
+        <field name="stock" type="integer" />
         <field name="createdAt" type="datetime"  />
         <field name="updatedAt" type="datetime" nullable="true" />
         <many-to-one field="maker" target-entity="App\Domain\Entity\Maker" inversed-by="phones" >

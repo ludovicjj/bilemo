@@ -31,7 +31,7 @@ class NormalizerData
         $data = $this->serializer->serialize(
             $input->getUser(),
             'json',
-            SerializationContext::create()->setGroups(['details_user'])
+            SerializationContext::create()->setGroups(['show_user'])
         );
 
         return $data;

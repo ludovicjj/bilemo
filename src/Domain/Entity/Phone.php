@@ -14,8 +14,26 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *      "self",
  *      href = @Hateoas\Route(
  *          "show_phone",
- *          parameters = { "phone_id" = "expr(object.getId())" }
- *      )
+ *          parameters = { "phone_id" = "expr(object.getId())" },
+ *          absolute = true
+ *      ),
+ *     exclusion = @Hateoas\Exclusion(groups={"list_phone"})
+ * )
+ *
+ * @Hateoas\Relation(
+ *      "self",
+ *      href = @Hateoas\Route(
+ *          "show_phone",
+ *          parameters = { "phone_id" = "expr(object.getId())" },
+ *          absolute = true
+ *      ),
+ *     exclusion = @Hateoas\Exclusion(groups={"show_phone"})
+ * )
+ *
+ * @Hateoas\Relation(
+ *     "maker",
+ *     embedded = @Hateoas\Embedded("expr(object.getMaker())"),
+ *     exclusion = @Hateoas\Exclusion(groups={"show_phone"})
  * )
  */
 class Phone
@@ -24,35 +42,35 @@ class Phone
      * @var UuidInterface
      * @Serializer\Expose()
      * @Serializer\Type("string")
-     * @Serializer\Groups({"list_phone", "details_phone"})
+     * @Serializer\Groups({"list_phone", "show_phone"})
      */
     protected $id;
 
     /**
      * @var string
      * @Serializer\Expose()
-     * @Serializer\Groups({"list_phone", "details_phone"})
+     * @Serializer\Groups({"list_phone", "show_phone"})
      */
     protected $name;
 
     /**
      * @var string
      * @Serializer\Expose()
-     * @Serializer\Groups({"details_phone"})
+     * @Serializer\Groups({"show_phone"})
      */
     protected $description;
 
     /**
-     * @var string
+     * @var float
      * @Serializer\Expose()
-     * @Serializer\Groups({"list_phone", "details_phone"})
+     * @Serializer\Groups({"list_phone", "show_phone"})
      */
     protected $price;
 
     /**
-     * @var string
+     * @var integer
      * @Serializer\Expose()
-     * @Serializer\Groups({"details_phone"})
+     * @Serializer\Groups({"show_phone"})
      */
     protected $stock;
 
@@ -60,7 +78,7 @@ class Phone
      * @var \DateTime
      * @Serializer\Expose()
      * @Serializer\Type("DateTime<'Y-m-d'>")
-     * @Serializer\Groups({"details_phone"})
+     * @Serializer\Groups({"show_phone"})
      */
     protected $createdAt;
 
@@ -68,11 +86,13 @@ class Phone
      * @var null|\DateTime
      * @Serializer\Expose()
      * @Serializer\Type("DateTime<'Y-m-d'>")
-     * @Serializer\Groups({"details_phone"})
+     * @Serializer\Groups({"show_phone"})
      */
     protected $updatedAt;
 
-    /** @var Maker */
+    /**
+     * @var Maker
+     */
     protected $maker;
 
     /**
@@ -89,15 +109,15 @@ class Phone
     /**
      * @param string $name
      * @param string $description
-     * @param string $price
-     * @param string $stock
+     * @param float $price
+     * @param int $stock
      * @param Maker $maker
      */
     public function createPhone(
         string $name,
         string $description,
-        string $price,
-        string $stock,
+        float $price,
+        int $stock,
         Maker $maker
     )
     {
@@ -123,12 +143,12 @@ class Phone
         return $this->description;
     }
 
-    public function getPrice(): string
+    public function getPrice(): float
     {
         return $this->price;
     }
 
-    public function getStock(): string
+    public function getStock(): int
     {
         return $this->stock;
     }

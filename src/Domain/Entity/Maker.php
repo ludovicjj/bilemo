@@ -5,13 +5,23 @@ namespace App\Domain\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use JMS\Serializer\Annotation as Serializer;
 
 class Maker
 {
-    /** @var UuidInterface  */
+    /**
+     * @var UuidInterface
+     * @Serializer\Expose()
+     * @Serializer\Type("string")
+     * @Serializer\Groups({"show_phone"})
+     */
     protected $id;
 
-    /** @var string */
+    /**
+     * @var string
+     * @Serializer\Expose()
+     * @Serializer\Groups({"show_phone"})
+     */
     protected $name;
 
     /** @var ArrayCollection  */

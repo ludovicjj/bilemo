@@ -4,7 +4,7 @@ namespace App\Domain\Security;
 
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+
 
 class ClientVoter extends Voter
 {
@@ -28,7 +28,9 @@ class ClientVoter extends Voter
 
         if ($object !== $currentClientId) {
 
-            throw new AccessDeniedException('Vous n\'êtes pas autorisé à ajouter cet utilisateur.');
+            return false;
         }
+
+        return true;
     }
 }

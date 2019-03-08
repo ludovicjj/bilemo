@@ -9,6 +9,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Swagger\Annotations as SWG;
 use Nelmio\ApiDocBundle\Annotation\Security;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use App\Domain\Entity\Phone;
 
 class ListPhone
 {
@@ -38,15 +40,20 @@ class ListPhone
      * @SWG\Response(
      *     response=200,
      *     description="Get the list of all phones.",
-     *     @SWG\Schema(ref="#/definitions/ListPhoneOutput")
+     *     @SWG\Schema(
+     *     type="array",
+     *         @SWG\Items(ref=@Model(type=Phone::class, groups={"list_phone"}))
+     *     )
      * )
      * @SWG\Response(
      *     response=401,
-     *     description="Your token is expired, please renew it"
+     *     description="Your token is expired, please renew it",
+     *     @SWG\Schema(ref="#/definitions/JwtErrorOutput")
      * )
      * @SWG\Response(
      *     response=403,
-     *     description="you must login to access this resource."
+     *     description="Missing or invalid token.",
+     *     @SWG\Schema(ref="#/definitions/JwtErrorOutput")
      * )
      * @Security(name="Bearer")
      */

@@ -10,6 +10,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Swagger\Annotations as SWG;
 use Nelmio\ApiDocBundle\Annotation\Security;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use App\Domain\Entity\Phone;
 
 class ShowPhone
 {
@@ -39,11 +41,6 @@ class ShowPhone
      * @return Response
      * @throws \Doctrine\ORM\NonUniqueResultException
      *
-     * @SWG\Response(
-     *     response=200,
-     *     description="Get one phone.",
-     *     @SWG\Schema(ref="#/definitions/ShowPhoneOutput")
-     * )
      * @SWG\Parameter(
      *     name="phone_id",
      *     in="path",
@@ -52,16 +49,24 @@ class ShowPhone
      *     required=true
      * )
      * @SWG\Response(
+     *     response=200,
+     *     description="Get one phone.",
+     *     @SWG\Schema(ref="#/definitions/ShowPhoneOutput")
+     * )
+     * @SWG\Response(
      *     response=401,
-     *     description="Your token is expired, please renew it"
+     *     description="Your token is expired, please renew it",
+     *     @SWG\Schema(ref="#/definitions/JwtErrorOutput")
      * )
      * @SWG\Response(
      *     response=403,
-     *     description="you must login to access this resource."
+     *     description="Missing or invalid token.",
+     *     @SWG\Schema(ref="#/definitions/JwtErrorOutput")
      * )
      * @SWG\Response(
      *     response=404,
-     *     description="Phone not found for phone_id."
+     *     description="Phone not found.",
+     *     @SWG\Schema(ref="#/definitions/NotFoundOutput")
      * )
      * @Security(name="Bearer")
      */

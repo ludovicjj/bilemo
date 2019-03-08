@@ -26,7 +26,7 @@ class NormalizerData
         $data = $this->serializer->serialize(
             $input->getPhone(),
             'json',
-            SerializationContext::create()->setGroups(['details_phone'])
+            SerializationContext::create()->setGroups(['show_phone'])
         );
 
         return $data;

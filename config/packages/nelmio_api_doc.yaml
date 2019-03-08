@@ -11,19 +11,11 @@ nelmio_api_doc:
                 name: Authorization
                 in: header
         definitions:
-            AddClientInput:
-                type: object
-                properties:
-                    username:
-                        type: string
-                        required: true
-                    password:
-                        type: string
-                        required: true
-                    email:
-                        type: string
-                        required: true
             AddUserInput:
+                type: array
+                items:
+                    $ref: "#/definitions/AddUserItemsInput"
+            AddUserItemsInput:
                 type: object
                 properties:
                     firstName:
@@ -38,37 +30,26 @@ nelmio_api_doc:
                     email:
                         type: string
                         required: true
-            ListUserOutput:
+
+            AddClientInput:
+                type: array
                 items:
-                    $ref: "#/definitions/ListUserItemsOutput"
-            ListUserItemsOutput:
+                    $ref: "#/definitions/AddClientItemsInput"
+            AddClientItemsInput:
                 type: object
                 properties:
-                    id:
+                    username:
                         type: string
                         required: true
-                    first_name:
+                    password:
                         type: string
                         required: true
-                    last_name:
+                    email:
                         type: string
                         required: true
-            ListPhoneOutput:
-                items:
-                    $ref: "#/definitions/ListPhoneItemsOutput"
-            ListPhoneItemsOutput:
-                type: object
-                properties:
-                    id:
-                        type: string
-                        required: true
-                    name:
-                        type: string
-                        required: true
-                    price:
-                        type: string
-                        required: true
+
             ShowPhoneOutput:
+                type: array
                 items:
                     $ref: "#/definitions/ShowPhoneItemsOutput"
             ShowPhoneItemsOutput:
@@ -84,10 +65,10 @@ nelmio_api_doc:
                         type: string
                         required: true
                     price:
-                        type: string
+                        type: integer
                         required: true
                     stock:
-                        type: string
+                        type: integer
                         required: true
                     created_at:
                         type: string
@@ -97,35 +78,48 @@ nelmio_api_doc:
                         type: string
                         format: date-time
                         required: false
-            ShowUserOutput:
-                items:
-                    $ref: "#/definitions/ShowUserItemsOutput"
-            ShowUserItemsOutput:
+                    _links:
+                        type: object
+                        properties:
+                            self:
+                                type: object
+                                required: true
+                                properties:
+                                    href:
+                                        type: string
+                                        required: true
+                    _embedded:
+                        type: object
+                        properties:
+                            maker:
+                                type: object
+                                required: true
+                                properties:
+                                    id:
+                                        type: string
+                                        required: true
+                                    name:
+                                        type: string
+                                        required: true
+
+            JwtErrorOutput:
                 type: object
                 properties:
-                    id:
+                    code:
+                        type: integer
+                        required: true
+                    message:
                         type: string
                         required: true
-                    first_name:
+
+            NotFoundOutput:
+                type: object
+                properties:
+                    message:
                         type: string
                         required: true
-                    last_name:
-                        type: string
-                        required: true
-                    phone_number:
-                        type: string
-                        required: true
-                    email:
-                        type: string
-                        required: true
-                    created_at:
-                        type: string
-                        format: date-time
-                        required: true
-                    updated_at:
-                        type: string
-                        format: date-time
-                        required: false
+
+
     areas:
         path_patterns:
             - ^/api(?!/doc$)

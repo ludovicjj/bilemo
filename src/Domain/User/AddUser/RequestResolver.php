@@ -59,7 +59,9 @@ class RequestResolver
         $client_id = $request->attributes->get('client_id');
 
         //TODO Test si {client_id} est égal à id de current client
-        $this->security->isGranted('CLIENT_ADD', $client_id);
+        if (!$this->security->isGranted('CLIENT_ADD', $client_id)) {
+            throw new AccessDeniedException('Vous n\'êtes pas autorisé à ajouter cet utilisateur.');
+        }
 
 
         /** @var AddUserInput $input */

@@ -24,7 +24,6 @@ class ClientVoter extends Voter
 
     protected function voteOnAttribute($attribute, $object, TokenInterface $token)
     {
-        //$currentClientId = $token->getUser()->getId()->toString();
         $currentClientId = $token->getUser()->getId();
 
         if ($object !== $currentClientId) {

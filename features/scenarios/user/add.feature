@@ -39,7 +39,7 @@ Feature: i need to be able to add user
     }
     """
 
-  Scenario: [Fail] Submit request with client has no access to this add this user
+  Scenario: [Fail] Submit request with client has no access to add this user
     And client with username "johndoe" should have following id "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
     When After authentication on url "/api/login/client" with method "POST" as username "johndoe" and password "passphrase", I send a "POST" request to "/api/clients/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaalol/users" with body:
     """

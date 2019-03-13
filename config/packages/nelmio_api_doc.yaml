@@ -46,7 +46,7 @@ nelmio_api_doc:
                             $ref: "#/definitions/AuthenticationInput"
                     responses:
                         200:
-                            description: OK.
+                            description: OK
                             schema:
                                 $ref: "#/definitions/JwtSuccessOutput"
                         400:
@@ -71,17 +71,15 @@ nelmio_api_doc:
                               $ref: "#/definitions/ClientInput"
                     responses:
                         201:
-                            description: Created, Success.
+                            description: Created
                         400:
                             description: Bad Request. Check your request.
 
             /api/clients/{client_id}/users:
                 post:
-                    security:
-                        - Bearer: []
                     tags:
                         - Client
-                    summary: Create new user in client's catalog user.
+                    summary: Create new user in client's user catalog.
                     description: '## Access for client'
                     parameters:
                         - in: path
@@ -97,13 +95,38 @@ nelmio_api_doc:
                               $ref: "#/definitions/UserInput"
                     responses:
                         201:
-                            description: Created.
+                            description: Created
                         400:
                             description: Bad Request. Check your request.
                         401:
                             description: Unauthorized. Your token is expired, please renew it.
                         403:
-                            description: Forbidden. Missing or invalid token
+                            description: Forbidden. Missing token | Invalid token | Client has no access
+
+                get:
+                    tags:
+                        - Client
+                    summary: Get all users in client's user catalog.
+                    description: '## Access for client'
+                    parameters:
+                        - in: path
+                          name: client_id
+                          required: true
+                          type: string
+                          description: The client unique identifier.
+                    responses:
+                        200:
+                            description: OK
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "#/definitions/ListUserOutput"
+                        204:
+                            description: NO CONTENT. Client's user catalog is empty
+                        401:
+                            description: Unauthorized. Your token is expired, please renew it.
+                        403:
+                            description: Forbidden. Missing token | Invalid token | Client has no access
 
 
         definitions:
@@ -217,6 +240,43 @@ nelmio_api_doc:
                                         type: string
                                         required: true
 
+            ListUserOutput:
+                type: object
+                properties:
+                    id:
+                        type: string
+                        required: true
+                    first_name:
+                        type: string
+                        required: true
+                    last_name:
+                        type: string
+                        required: true
+                    _links:
+                        type: object
+                        required: true
+                        properties:
+                            self:
+                                type: object
+                                required: true
+                                properties:
+                                    href:
+                                        type: string
+                                        required: true
+                            delete:
+                                type: object
+                                required: true
+                                properties:
+                                    href:
+                                        type: string
+                                        required: true
+                            add:
+                                type: object
+                                required: true
+                                properties:
+                                    href:
+                                        type: string
+                                        required: true
 
             NotFoundOutput:
                 type: object

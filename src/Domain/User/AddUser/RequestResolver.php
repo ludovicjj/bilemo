@@ -56,10 +56,9 @@ class RequestResolver
     {
         /** @var Client $client */
         $client = $this->tokenStorage->getToken()->getUser();
+        $clientId = $request->attributes->get('client_id');
 
-
-        $client_id = $request->attributes->get('client_id');
-        if (!$this->security->isGranted('CLIENT_CHECK', $client_id)) {
+        if (!$this->security->isGranted('CLIENT_CHECK', $clientId)) {
             ProcessorErrorsHttp::throwAccessDenied('Vous n\'êtes pas autorisé à ajouter cet utilisateur.');
         }
 

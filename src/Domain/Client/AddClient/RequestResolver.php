@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
+
 class RequestResolver
 {
     /** @var SerializerInterface */
@@ -44,11 +45,9 @@ class RequestResolver
             'json'
         );
 
-        //TODO Validation de AddClientInput
         $constraintList = $this->validator->validate($input);
         ErrorsValidationFactory::buildError($constraintList);
 
-        //TODO retourne AddClientInput
         return $input;
     }
 }

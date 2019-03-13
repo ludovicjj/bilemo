@@ -9,6 +9,7 @@ class AuthenticationSuccessListener
 {
     public function onAuthenticationSuccessResponse(AuthenticationSuccessEvent $event)
     {
+        /**
         $data = $event->getData();
         $user = $event->getUser();
 
@@ -23,5 +24,7 @@ class AuthenticationSuccessListener
         ];
 
         $event->setData($data);
+         *
+         **/
     }
 }

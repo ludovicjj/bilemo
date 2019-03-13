@@ -18,7 +18,7 @@ security:
             pattern: ^/api/doc
             security: false
 
-        api_login_client:
+        login_client:
             pattern:  ^/api/login/client
             stateless: true
             anonymous: true
@@ -28,13 +28,21 @@ security:
                 success_handler:          lexik_jwt_authentication.handler.authentication_success
                 failure_handler:          lexik_jwt_authentication.handler.authentication_failure
 
-        api_registration:
-            pattern: ^/api/registration
+        client:
+            pattern:   ^/api/clients/
+            stateless: true
+            provider: client_provider
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
+
+        register_login:
+            pattern: ^/api/clients
             stateless: true
             anonymous: true
 
-        api:
-            pattern:   ^/api
+        phone:
+            pattern: ^/api/phones
             stateless: true
             provider: client_provider
             guard:
@@ -42,7 +50,8 @@ security:
                     - lexik_jwt_authentication.jwt_token_authenticator
 
     access_control:
-        - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api/registration, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api/clients, roles: IS_AUTHENTICATED_FULLY }
-        - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api/login,      roles: IS_AUTHENTICATED_ANONYMOUSLY,    methods: [POST] }
+        - { path: ^/api/clients,    roles: IS_AUTHENTICATED_ANONYMOUSLY,    methods: [POST] }
+        - { path: ^/api/clients/,   roles: IS_AUTHENTICATED_FULLY,          methods: [POST, GET, DELETE] }
+        - { path: ^/api/phones/,    roles: IS_AUTHENTICATED_FULLY,          methods: [GET] }
+        - { path: ^/api/phones,     roles: IS_AUTHENTICATED_FULLY,          methods: [GET] }

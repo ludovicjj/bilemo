@@ -2,39 +2,39 @@
 
 namespace App\Domain\Client\AddClient;
 
-use App\Domain\Commun\Factory\ClientFactory;
 use App\Domain\Commun\Factory\ErrorsValidationFactory;
 use App\Domain\Entity\Client;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use App\Domain\Commun\Factory\ClientFactory;
+use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 
 class Persister
 {
     /** @var EntityManagerInterface  */
     protected $entityManager;
 
-    /** @var ClientFactory  */
-    protected $clientFactory;
-
     /** @var ValidatorInterface  */
     protected $validator;
 
+    /** @var EncoderFactoryInterface  */
+    protected $encoderFactory;
+
     /**
      * Persister constructor.
-     *
      * @param EntityManagerInterface $entityManager
-     * @param ClientFactory $clientFactory
      * @param ValidatorInterface $validator
+     * @param EncoderFactoryInterface $encoderFactory
      */
     public function __construct(
         EntityManagerInterface $entityManager,
-        ClientFactory $clientFactory,
-        ValidatorInterface $validator
+        ValidatorInterface $validator,
+        EncoderFactoryInterface $encoderFactory
     )
     {
         $this->entityManager = $entityManager;
-        $this->clientFactory = $clientFactory;
         $this->validator = $validator;
+        $this->encoderFactory = $encoderFactory;
     }
 
     /**
@@ -46,9 +46,9 @@ class Persister
     public function persist(AddClientInput $input): array
     {
         /** @var Client $client */
-        $client = $this->clientFactory->create(
+        $client = ClientFactory::create(
             $input->getUsername(),
-            $input->getPassword(),
+            $this->encoderFactory->getEncoder(Client::class)->encodePassword($input->getPassword(), ''),
             $input->getEmail()
         );
 

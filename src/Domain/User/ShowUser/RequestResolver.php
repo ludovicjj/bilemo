@@ -36,21 +36,14 @@ class RequestResolver
      */
     public function resolve(Request $request)
     {
-        //TODO Get $_GET['user_id']
         $userId = $request->attributes->get('user_id');
-
-        //TODO Get user by UserRepository with findOneOrNullResult
         $user = $this->entityManager->getRepository(User::class)->userExist($userId);
 
-        //TODO Check User (Exception if user is null)
         if (!$user) {
             throw new NotFoundHttpException(sprintf('Aucun utilisateur ne correspond à l\'id : "%s"', $userId));
         }
-
-        //TODO Hydrate ShowUserInput
         $this->showUserInput->setUser($user);
 
-        //TODO Return ShowUserInput
         return $this->showUserInput->getInput();
     }
 }

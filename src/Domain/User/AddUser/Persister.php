@@ -2,19 +2,26 @@
 
 namespace App\Domain\User\AddUser;
 
+use App\Domain\Commun\Factory\ErrorsValidationFactory;
 use App\Domain\Commun\Factory\UserFactory;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class Persister
 {
     /** @var EntityManagerInterface */
     protected $entityManager;
 
+    /** @var ValidatorInterface  */
+    protected $validator;
+
     public function __construct(
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        ValidatorInterface $validator
     )
     {
         $this->entityManager = $entityManager;
+        $this->validator = $validator;
     }
 
     /**
@@ -33,6 +40,9 @@ class Persister
             $input->getEmail(),
             $input->getClient()
         );
+
+        $constraintList = $this->validator->validate($user);
+        ErrorsValidationFactory::buildError($constraintList);
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();

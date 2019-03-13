@@ -56,13 +56,14 @@ class RequestResolver
     {
         /** @var Client $client */
         $client = $this->tokenStorage->getToken()->getUser();
-        $client_id = $request->attributes->get('client_id');
 
-        //TODO Test si {client_id} est égal à id de current client
-        if (!$this->security->isGranted('CLIENT_ADD', $client_id)) {
-            throw new AccessDeniedException('Vous n\'êtes pas autorisé à ajouter cet utilisateur.');
-        }
 
+        /**
+         * $client_id = $request->attributes->get('client_id');
+         * if (!$this->security->isGranted('CLIENT_ADD', $client_id)) {
+         *      throw new AccessDeniedException("Vous n'êtes pas autorisé à ajouter cet utilisateur.");
+         * }
+         **/
 
         /** @var AddUserInput $input */
         $input = $this->serializer->deserialize(

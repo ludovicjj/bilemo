@@ -3,11 +3,9 @@ App\Domain\Client\AddClient\AddClientInput:
         username:
             - NotBlank:
                 message: Veuillez choisir un pseudo.
-
         password:
             - NotBlank:
                 message: Veuillez choisir un mot de passe.
-
         email:
             - NotBlank:
                 message: Veuillez saisir une adresse email.

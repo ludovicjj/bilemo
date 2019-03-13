@@ -3,25 +3,9 @@
 namespace App\Domain\Commun\Factory;
 
 use App\Domain\Entity\Client;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class ClientFactory
 {
-    /** @var UserPasswordEncoderInterface  */
-    protected $passwordEncoder;
-
-    /**
-     * ClientFactory constructor.
-     *
-     * @param UserPasswordEncoderInterface $passwordEncoder
-     */
-    public function __construct(
-        UserPasswordEncoderInterface $passwordEncoder
-    )
-    {
-        $this->passwordEncoder = $passwordEncoder;
-    }
-
     /**
      * @param string $username
      * @param string $password
@@ -31,7 +15,7 @@ class ClientFactory
      *
      * @throws \Exception
      */
-    public function create(
+    public static function create(
         string $username,
         string $password,
         string $email
@@ -40,7 +24,7 @@ class ClientFactory
         $client = new Client();
         $client->createClient(
             $username,
-            $this->passwordEncoder->encodePassword($client, $password),
+            $password,
             $email
         );
 

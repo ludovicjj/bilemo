@@ -1,21 +1,153 @@
 nelmio_api_doc:
+
+    areas:
+        default:
+            path_patterns:
+                - ^/api(?!/doc$)
+
     documentation:
+
         info:
             title: Bilemo Api
             description: API description for Bilemo App
             version: 1.0.0
+
         securityDefinitions:
             Bearer:
                 type: apiKey
-                description: 'Value: Bearer {TOKEN}, obtain by /api/login/client'
+                description: 'Bearer: {TOKEN}, obtain by /api/login/client'
                 name: Authorization
                 in: header
+                default: Bearer
+        security:
+            - Bearer: []
+
+        tags:
+            - name: Authentication
+              description: Get access to your token
+            - name: Client
+              description: Manager Client
+            - name: Phone
+              description: Manager Phone
+
+
+        paths:
+            /api/login/client:
+                post:
+                    tags:
+                        - Authentication
+                    summary: Client authentication.
+                    parameters:
+                        - in: body
+                          name: body
+                          required: true
+                          description: Request payload must contain all informations.
+                          schema:
+                            $ref: "#/definitions/AuthenticationInput"
+                    responses:
+                        200:
+                            description: OK.
+                            schema:
+                                $ref: "#/definitions/JwtSuccessOutput"
+                        400:
+                            description: Bad Request. Check your request.
+                        401:
+                            description: Unauthorized. Bad credential.
+                            schema:
+                                $ref: "#/definitions/JwtErrorOutput"
+
+            /api/clients:
+                post:
+                    tags:
+                        - Client
+                    summary: Client registration.
+                    description: '##  Access for anonymous user'
+                    parameters:
+                        - in: body
+                          name: body
+                          required: true
+                          description: Request payload must contain all informations.
+                          schema:
+                              $ref: "#/definitions/ClientInput"
+                    responses:
+                        201:
+                            description: Created, Success.
+                        400:
+                            description: Bad Request. Check your request.
+
+            /api/clients/{client_id}/users:
+                post:
+                    security:
+                        - Bearer: []
+                    tags:
+                        - Client
+                    summary: Create new user in client's catalog user.
+                    description: '## Access for client'
+                    parameters:
+                        - in: path
+                          name: client_id
+                          required: true
+                          type: string
+                          description: The client unique identifier.
+                        - in: body
+                          name: body
+                          required: true
+                          description: Request payload must contain all informations
+                          schema:
+                              $ref: "#/definitions/UserInput"
+                    responses:
+                        201:
+                            description: Created.
+                        400:
+                            description: Bad Request. Check your request.
+                        401:
+                            description: Unauthorized. Your token is expired, please renew it.
+                        403:
+                            description: Forbidden. Missing or invalid token
+
+
         definitions:
-            AddUserInput:
-                type: array
-                items:
-                    $ref: "#/definitions/AddUserItemsInput"
-            AddUserItemsInput:
+            AuthenticationInput:
+                type: object
+                properties:
+                    username:
+                        type: string
+                        required: true
+                    password:
+                        type: string
+                        required: true
+
+            JwtErrorOutput:
+                type: object
+                properties:
+                    code:
+                        type: integer
+                        required: true
+                    message:
+                        type: string
+                        required: true
+
+            JwtSuccessOutput:
+                type: object
+                properties:
+                    token:
+                        type: string
+                        required: true
+
+            ClientInput:
+                type: object
+                properties:
+                    username:
+                        type: string
+                        required: true
+                    password:
+                        type: string
+                        required: true
+                    email:
+                        type: string
+                        required: true
+
+            UserInput:
                 type: object
                 properties:
                     firstName:
@@ -25,23 +157,6 @@ nelmio_api_doc:
                         type: string
                         required: true
                     phoneNumber:
-                        type: string
-                        required: true
-                    email:
-                        type: string
-                        required: true
-
-            AddClientInput:
-                type: array
-                items:
-                    $ref: "#/definitions/AddClientItemsInput"
-            AddClientItemsInput:
-                type: object
-                properties:
-                    username:
-                        type: string
-                        required: true
-                    password:
                         type: string
                         required: true
                     email:
@@ -102,15 +217,6 @@ nelmio_api_doc:
                                         type: string
                                         required: true
 
-            JwtErrorOutput:
-                type: object
-                properties:
-                    code:
-                        type: integer
-                        required: true
-                    message:
-                        type: string
-                        required: true
 
             NotFoundOutput:
                 type: object
@@ -118,8 +224,3 @@ nelmio_api_doc:
                     message:
                         type: string
                         required: true
-
-
-    areas:
-        path_patterns:
-            - ^/api(?!/doc$)

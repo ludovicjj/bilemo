@@ -1,0 +1,17 @@
+<?php
+
+namespace App\Domain\Commun\Exceptions;
+
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+
+class ProcessorErrorsHttp
+{
+    public static function throwAccessDenied(string $message)
+    {
+        throw new HttpException(
+            Response::HTTP_FORBIDDEN,
+            $message
+        );
+    }
+}

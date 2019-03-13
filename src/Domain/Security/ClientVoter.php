@@ -14,7 +14,7 @@ class ClientVoter extends Voter
          * L'un des votants par défaut gère tout ce qui commence par ROLE_
          * Créer un nouveau votant qui décide de l'accès chaque fois que nous passons CLIENT_ADD à isGranted().
          */
-        if ($attribute != 'CLIENT_ADD') {
+        if ($attribute != 'CLIENT_CHECK') {
 
             return false;
         }
@@ -24,7 +24,8 @@ class ClientVoter extends Voter
 
     protected function voteOnAttribute($attribute, $object, TokenInterface $token)
     {
-        $currentClientId = $token->getUser()->getId()->toString();
+        //$currentClientId = $token->getUser()->getId()->toString();
+        $currentClientId = $token->getUser()->getId();
 
         if ($object !== $currentClientId) {
 

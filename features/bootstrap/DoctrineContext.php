@@ -13,6 +13,7 @@ use App\Domain\Entity\Client;
 use App\Domain\Entity\User;
 use Doctrine\ORM\NonUniqueResultException;
 use App\Domain\Commun\Factory\UserFactory;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class DoctrineContext implements Context
 {
@@ -92,6 +93,7 @@ class DoctrineContext implements Context
      *
      * @param $username
      * @throws NonUniqueResultException
+     * @throws NotFoundHttpException
      */
     public function theClientShouldExistInDatabase($username)
     {
@@ -103,7 +105,7 @@ class DoctrineContext implements Context
             ->getOneOrNullResult();
 
         if (!$client) {
-            throw new NonUniqueResultException(sprintf('Aucun client ne correspond au username : %s', $username));
+            throw new NotFoundHttpException(sprintf('Aucun client ne correspond au username : %s', $username));
         }
     }
 
@@ -111,6 +113,7 @@ class DoctrineContext implements Context
      * @Then the user with email :email should exist in database
      * @param $email
      * @throws NonUniqueResultException
+     * @throws NotFoundHttpException
      */
     public function theUserShouldExistInDatabase2($email)
     {
@@ -122,7 +125,7 @@ class DoctrineContext implements Context
             ->getOneOrNullResult()
             ;
         if (!$user) {
-            throw new NonUniqueResultException(sprintf('Expected user with email :%s', $email));
+            throw new NotFoundHttpException(sprintf('Expected user with email :%s', $email));
         }
     }
 
@@ -130,6 +133,7 @@ class DoctrineContext implements Context
      * @Given client have the following user:
      * @param TableNode $table
      * @throws NonUniqueResultException
+     * @throws NotFoundHttpException
      * @throws Exception
      */
     public function clientHaveTheFollowingUser(TableNode $table)
@@ -143,7 +147,7 @@ class DoctrineContext implements Context
                 ->getOneOrNullResult();
 
             if (!$client) {
-                throw new NonUniqueResultException(sprintf('Expected client with username :%s', $hash['client']));
+                throw new NotFoundHttpException(sprintf('Expected client with username :%s', $hash['client']));
             }
 
             $user = UserFactory::create(
@@ -155,6 +159,28 @@ class DoctrineContext implements Context
             );
             $this->doctrine->getManager()->persist($user);
         }
+        $this->doctrine->getManager()->flush();
+    }
+
+    /**
+     * @Given client with username :username should have following id :identifier
+     * @param $username
+     * @param $identifier
+     * @throws ReflectionException
+     */
+    public function clientWithUsernameShouldHaveFollowingId($username, $identifier)
+    {
+        $client = $this->doctrine->getManager()->getRepository(Client::class)->findOneBy(['username' => $username ]);
+
+        if (!$client) {
+            throw new NotFoundHttpException(sprintf('Expected client with username :%s', $username));
+        }
+
+        $reflection = new \ReflectionClass($client);
+        $property = $reflection->getProperty('id');
+        $property->setAccessible(true);
+        $property->setValue($client, $identifier);
+
         $this->doctrine->getManager()->flush();
     }
 }

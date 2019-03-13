@@ -16,7 +16,7 @@ use JMS\Serializer\Annotation as JMS;
 class Client implements UserInterface
 {
     /**
-     * @var UuidInterface
+     * @var string|UuidInterface
      */
     protected $id;
     /**
@@ -57,7 +57,7 @@ class Client implements UserInterface
      */
     public function __construct()
     {
-        $this->id = Uuid::uuid4();
+        $this->id = Uuid::uuid4()->toString();
         $this->users = new ArrayCollection();
         $this->createdAt = new \DateTime();
         $this->updatedAt = null;
@@ -80,9 +80,12 @@ class Client implements UserInterface
         $this->email = $email;
     }
 
-    public function getId(): UuidInterface
+    /**
+     * @return UuidInterface|string
+     */
+    public function getId()
     {
-        return $this->id;
+        return is_object($this->id) ? $this->id->toString() : $this->id;
     }
 
     public function getUsername(): string

@@ -14,6 +14,7 @@ Feature: i need to be able to add user
     And the JSON node "message" should be equal to "Missing token."
 
   Scenario: [Fail] Submit request with invalid payload.
+    And client with username "johndoe" should have following id "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
     When After authentication on url "/api/login/client" with method "POST" as username "johndoe" and password "passphrase", I send a "POST" request to "/api/clients/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa/users" with body:
     """
     {
@@ -37,7 +38,19 @@ Feature: i need to be able to add user
       ]
     }
     """
+
+  Scenario: [Fail] Submit request with client has no access to this add this user
+    And client with username "johndoe" should have following id "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
+    When After authentication on url "/api/login/client" with method "POST" as username "johndoe" and password "passphrase", I send a "POST" request to "/api/clients/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaalol/users" with body:
+    """
+    {
+    }
+    """
+    Then the response status code should be 403
+    And the JSON node "message" should be equal to "Vous n'êtes pas autorisé à ajouter cet utilisateur."
+
   Scenario: [Fail] Submit request with user's email and user's phone number already exist
+    And client with username "johndoe" should have following id "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
     And client have the following user:
       | firstName | lastName | phoneNumber | email         | client  |
       | toto      | dupont   | 0123456789  | toto@gmail.com| johndoe |
@@ -62,7 +75,9 @@ Feature: i need to be able to add user
       ]
     }
     """
+
   Scenario: [Success] Submit request with valid payload
+    And client with username "johndoe" should have following id "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
     When After authentication on url "/api/login/client" with method "POST" as username "johndoe" and password "passphrase", I send a "POST" request to "/api/clients/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa/users" with body:
     """
     {

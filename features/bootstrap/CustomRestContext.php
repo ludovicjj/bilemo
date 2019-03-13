@@ -76,7 +76,7 @@ class CustomRestContext extends RestContext
             ['CONTENT_TYPE' => 'application/json']
         );
 
-        $data = json_decode($requestLogin->getContent(), true);
+        $responseLogin = json_decode($requestLogin->getContent(), true);
         $request = $this->request->send(
             $methodAddUser,
             $this->locatePath($urlAddUser),
@@ -85,10 +85,10 @@ class CustomRestContext extends RestContext
             $string !== null ? $string->getRaw() : null,
             [
                 'CONTENT_TYPE' => 'application/json',
-                'HTTP_Authorization' => sprintf('Bearer %s', $data['token'])
+                'HTTP_Authorization' => sprintf('Bearer %s', $responseLogin['token'])
             ]
         );
 
-        return $request;
+        return $request->getContent();
     }
 }

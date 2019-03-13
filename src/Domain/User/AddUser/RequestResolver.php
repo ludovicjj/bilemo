@@ -2,11 +2,11 @@
 
 namespace App\Domain\User\AddUser;
 
+use App\Domain\Commun\Exceptions\ProcessorErrorsHttp;
 use App\Domain\Commun\Factory\ErrorsValidationFactory;
 use App\Domain\Entity\Client;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -58,12 +58,11 @@ class RequestResolver
         $client = $this->tokenStorage->getToken()->getUser();
 
 
-        /**
-         * $client_id = $request->attributes->get('client_id');
-         * if (!$this->security->isGranted('CLIENT_ADD', $client_id)) {
-         *      throw new AccessDeniedException("Vous n'êtes pas autorisé à ajouter cet utilisateur.");
-         * }
-         **/
+        $client_id = $request->attributes->get('client_id');
+        if (!$this->security->isGranted('CLIENT_CHECK', $client_id)) {
+            ProcessorErrorsHttp::throwAccessDenied('Vous n\'êtes pas autorisé à ajouter cet utilisateur.');
+        }
+
 
         /** @var AddUserInput $input */
         $input = $this->serializer->deserialize(

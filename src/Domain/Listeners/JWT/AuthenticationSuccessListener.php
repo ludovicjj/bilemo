@@ -9,7 +9,7 @@ class AuthenticationSuccessListener
 {
     public function onAuthenticationSuccessResponse(AuthenticationSuccessEvent $event)
     {
-        /**
+
         $data = $event->getData();
         $user = $event->getUser();
 
@@ -17,14 +17,10 @@ class AuthenticationSuccessListener
             return;
         }
 
-        $data['user'] = [
-            'id' => $user->getId(),
-            'username' => $user->getUsername(),
-            'roles' => $user->getRoles()
+        $data['client'] = [
+            'id' => $user->getId()
         ];
 
         $event->setData($data);
-         *
-         **/
     }
 }

@@ -156,6 +156,13 @@ nelmio_api_doc:
                     token:
                         type: string
                         required: true
+                    client:
+                        type: object
+                        required: true
+                        properties:
+                            id:
+                                type: string
+                                required: true
 
             ClientInput:
                 type: object

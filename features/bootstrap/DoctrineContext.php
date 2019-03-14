@@ -15,6 +15,9 @@ use Doctrine\ORM\NonUniqueResultException;
 use App\Domain\Commun\Factory\UserFactory;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\Console\Input\ArrayInput;
+
 class DoctrineContext implements Context
 {
     private $schemaTool;
@@ -71,11 +74,11 @@ class DoctrineContext implements Context
     }
 
     /**
-     * @Given i load the following client :
+     * @Given I load the following client :
      * @param TableNode $table
      * @throws Exception
      */
-    public function iLoadTheFollowingUser(TableNode $table)
+    public function ILoadTheFollowingUser(TableNode $table)
     {
         foreach ($table->getHash() as $hash) {
             $user = ClientFactory::create(
@@ -182,5 +185,24 @@ class DoctrineContext implements Context
         $property->setValue($client, $identifier);
 
         $this->doctrine->getManager()->flush();
+    }
+
+    /**
+     * @Given I load fixtures with the following command :command
+     * @param $command
+     * @throws Exception
+     */
+    public function iLoadFixturesWithTheFollowingCommand($command)
+    {
+        $application = new Application($this->kernel);
+
+        $application->setAutoExit(false);
+
+        $input = new ArrayInput([
+            'command' => $command,
+            '--no-interaction' => true,
+        ]);
+        $output = new \Symfony\Component\Console\Output\NullOutput();
+        $application->run($input, $output);
     }
 }

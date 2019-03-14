@@ -3,7 +3,7 @@
 
 Feature: i need to be able to get client's user catalog
   Background:
-    Given i load the following client :
+    Given I load the following client :
       | username | password   | email             |
       | johndoe  | passphrase | johndoe@gmail.com |
 

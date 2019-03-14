@@ -3,7 +3,7 @@
 
 Feature: As an anonymous user, I need to be able to submit registration request
   Background:
-    Given i load the following client :
+    Given I load the following client :
       | username | password   | email             |
       | johndoe  | passphrase | johndoe@gmail.com |
 

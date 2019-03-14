@@ -34,6 +34,10 @@ nelmio_api_doc:
                     tags:
                         - Authentication
                     summary: Client authentication.
+                    consumes:
+                        - application/json
+                    produces:
+                        - application/json
                     parameters:
                         - in: body
                           name: body
@@ -59,6 +63,10 @@ nelmio_api_doc:
                         - Client
                     summary: Client registration.
                     description: '##  Access for anonymous user'
+                    consumes:
+                        - application/json
+                    produces:
+                        - application/json
                     parameters:
                         - in: body
                           name: body
@@ -80,6 +88,8 @@ nelmio_api_doc:
                         - Client
                     summary: Create new user in client's user catalog.
                     description: '## Access for client'
+                    produces:
+                        - application/json
                     parameters:
                         - in: path
                           name: client_id
@@ -107,7 +117,7 @@ nelmio_api_doc:
                         - Bearer: []
                     tags:
                         - Client
-                    summary: Get all users in client's user catalog.
+                    summary: Get all users from client's user catalog.
                     description: '## Access for client'
                     parameters:
                         - in: path
@@ -129,6 +139,28 @@ nelmio_api_doc:
                         403:
                             description: Forbidden. Missing token | Invalid token | Client has no access
 
+            /api/phones:
+                get:
+                    security:
+                        - Bearer: []
+                    tags:
+                        - Phone
+                    summary: Get all phones from phone's catalog
+                    description: '## Access for client'
+                    responses:
+                        200:
+                            description: OK
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/definitions/ListPhoneOutput'
+                        204:
+                            description: NO_CONTENT. phone's catalog is empty
+                        401:
+                            description: Unauthorized. Your token is expired, please renew it.
+                        403:
+                            description: Forbidden. Missing token | Invalid token
+
 
         definitions:
             AuthenticationInput:
@@ -136,47 +168,42 @@ nelmio_api_doc:
                 properties:
                     username:
                         type: string
-                        required: true
                     password:
                         type: string
-                        required: true
 
             JwtErrorOutput:
                 type: object
                 properties:
                     code:
                         type: integer
-                        required: true
                     message:
                         type: string
-                        required: true
 
             JwtSuccessOutput:
                 type: object
                 properties:
                     token:
                         type: string
-                        required: true
                     client:
                         type: object
-                        required: true
                         properties:
                             id:
                                 type: string
-                                required: true
 
             ClientInput:
                 type: object
                 properties:
                     username:
                         type: string
-                        required: true
                     password:
                         type: string
-                        required: true
                     email:
                         type: string
-                        required: true
+                        format: email
+                required:
+                    - username
+                    - password
+                    - email
 
             UserInput:
                 type: object
@@ -253,42 +280,50 @@ nelmio_api_doc:
                 properties:
                     id:
                         type: string
-                        required: true
                     first_name:
                         type: string
-                        required: true
                     last_name:
                         type: string
-                        required: true
                     _links:
                         type: object
-                        required: true
                         properties:
                             self:
                                 type: object
-                                required: true
                                 properties:
                                     href:
                                         type: string
-                                        required: true
                             delete:
                                 type: object
-                                required: true
                                 properties:
                                     href:
                                         type: string
-                                        required: true
                             add:
                                 type: object
-                                required: true
                                 properties:
                                     href:
                                         type: string
-                                        required: true
+
+            ListPhoneOutput:
+                type: object
+                properties:
+                    id:
+                        type: string
+                    name:
+                        type: string
+                    price:
+                        type: number
+                        format: float
+                    _link:
+                        type: object
+                        properties:
+                            self:
+                                type: object
+                                properties:
+                                    href:
+                                        type: string
 
             NotFoundOutput:
                 type: object
                 properties:
                     message:
                         type: string
-                        required: true

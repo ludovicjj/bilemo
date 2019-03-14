@@ -29,6 +29,13 @@ class NormalizerData
             SerializationContext::create()->setGroups(['list_phone'])
         );
 
+        $result = json_decode($data);
+
+        if (count($result) === 0) {
+
+            return null;
+        }
+
         return $data;
     }
 }

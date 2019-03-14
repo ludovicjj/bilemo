@@ -14,4 +14,12 @@ class ProcessorErrorsHttp
             $message
         );
     }
+
+    public static function throwNotFound(string $message)
+    {
+        throw new HttpException(
+            Response::HTTP_NOT_FOUND,
+            $message
+        );
+    }
 }

@@ -23,7 +23,9 @@ class MakerFixtures extends fixture
         ];
 
         foreach ($names as $name) {
-            $maker = new Maker($name);
+            $maker = new Maker();
+            $maker->createMaker($name);
+
             $manager->persist($maker);
             $this->addReference($name, $maker);
         }

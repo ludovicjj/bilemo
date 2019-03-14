@@ -17,6 +17,9 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
+use App\Domain\Commun\Factory\MakerFactory;
+use App\Domain\Commun\Factory\PhoneFactory;
+use App\Domain\Entity\Phone;
 
 class DoctrineContext implements Context
 {
@@ -204,5 +207,76 @@ class DoctrineContext implements Context
         ]);
         $output = new \Symfony\Component\Console\Output\NullOutput();
         $application->run($input, $output);
+    }
+
+    /**
+     * @Given I load this phone with maker :
+     * @param TableNode $table
+     * @throws \Exception
+     */
+    public function iLoadThisPhoneWithMaker(TableNode $table)
+    {
+        foreach ($table->getHash() as $hash) {
+            $maker = MakerFactory::create($hash['maker']);
+            $phone = PhoneFactory::create(
+                $hash['name'],
+                $hash['description'],
+                $hash['price'],
+                $hash['stock'],
+                $maker
+            );
+
+            $this->doctrine->getManager()->persist($phone);
+        }
+        $this->doctrine->getManager()->flush();
+    }
+
+    /**
+     * @Given phone with name :arg1 should have following id :arg2
+     * @param $phoneName
+     * @param $identifierPhone
+     * @throws ReflectionException
+     */
+    public function phoneWithNameShouldHaveFollowingId($phoneName, $identifierPhone)
+    {
+        $phone = $this->doctrine->getManager()->getRepository(Phone::class)->findOneBy(['name' => $phoneName]);
+
+        if (!$phone) {
+            throw new NotFoundHttpException(sprintf('expected phone with name : %s', $phoneName));
+        }
+
+        $reflection = new \ReflectionClass($phone);
+        $property = $reflection->getProperty('id');
+        $property->setAccessible(true);
+        $property->setValue($phone, $identifierPhone);
+
+        $this->doctrine->getManager()->flush();
+    }
+
+    /**
+     * @Then the phone with id :phoneId should exist in database
+     * @param $phoneId
+     */
+    public function thePhoneWithIdShouldExistInDatabase($phoneId)
+    {
+        $phone = $this->doctrine->getManager()->getRepository(Phone::class)->findOneBy(['id' => $phoneId]);
+
+        if (!$phone) {
+            throw new NotFoundHttpException(sprintf('Expected phone with id :%s', $phoneId));
+        }
+
+    }
+
+    /**
+     * @Then the maker with name :name should exist in database
+     * @param $name
+     */
+    public function theMakerWithNameShouldExistInDatabase($name)
+    {
+        $maker = $this->doctrine->getManager()->getRepository(\App\Domain\Entity\Maker::class)->findOneBy(['name' => $name]);
+
+        if (!$maker) {
+            throw new NotFoundHttpException(sprintf('Expected maker with name :%s', $name));
+        }
     }
 }

@@ -2,42 +2,21 @@
 
 namespace App\Domain\Commun\Factory;
 
-
 use App\Domain\Entity\Maker;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class MakerFactory
 {
-    /** @var UserPasswordEncoderInterface  */
-    protected $passwordEncoder;
-
     /**
-     * MakerFactory constructor.
-     * @param UserPasswordEncoderInterface $passwordEncoder
-     */
-    public function __construct(
-        UserPasswordEncoderInterface $passwordEncoder
-    )
-    {
-        $this->passwordEncoder = $passwordEncoder;
-    }
-
-    /**
-     * @param string $username
-     * @param string $password
+     * @param string $name
      * @return Maker
      * @throws \Exception
      */
-    public function create(
-        string $username,
-        string $password
+    public static function create(
+        string $name
     )
     {
         $maker = new Maker();
-        $maker->createMaker(
-            $username,
-            $this->passwordEncoder->encodePassword($maker, $password)
-        );
+        $maker->createMaker($name);
 
         return $maker;
     }

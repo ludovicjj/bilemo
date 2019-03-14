@@ -29,16 +29,20 @@ class Maker
 
     /**
      * Maker constructor.
-     * @param string $name
      * @throws \Exception
      */
-    public function __construct(
-        string $name
-    )
+    public function __construct()
     {
         $this->id = Uuid::uuid4();
-        $this->name = $name;
         $this->phones = new ArrayCollection();
+    }
+
+    /**
+     * @param string $name
+     */
+    public function createMaker(string $name)
+    {
+        $this->name = $name;
     }
 
     public function getId(): UuidInterface

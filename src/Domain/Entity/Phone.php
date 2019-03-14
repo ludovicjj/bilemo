@@ -39,7 +39,7 @@ use Hateoas\Configuration\Annotation as Hateoas;
 class Phone
 {
     /**
-     * @var UuidInterface
+     * @var string|UuidInterface
      * @Serializer\Expose()
      * @Serializer\Type("string")
      * @Serializer\Groups({"list_phone", "show_phone"})
@@ -101,7 +101,7 @@ class Phone
      */
     public function __construct()
     {
-        $this->id = Uuid::uuid4();
+        $this->id = Uuid::uuid4()->toString();
         $this->createdAt = new \DateTime();
         $this->updatedAt = null;
     }
@@ -128,9 +128,12 @@ class Phone
         $this->maker = $maker;
     }
 
-    public function getId(): UuidInterface
+    /**
+     * @return UuidInterface|string
+     */
+    public function getId()
     {
-        return $this->id;
+        return is_object($this->id) ? $this->id->toString() : $this->id;
     }
 
     public function getName(): string

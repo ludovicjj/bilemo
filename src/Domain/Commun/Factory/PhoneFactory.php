@@ -10,8 +10,8 @@ class PhoneFactory
     /**
      * @param string $name
      * @param string $description
-     * @param string $price
-     * @param string $stock
+     * @param float $price
+     * @param int $stock
      * @param Maker $maker
      * @return Phone
      * @throws \Exception
@@ -19,8 +19,8 @@ class PhoneFactory
     public static function create(
         string $name,
         string $description,
-        string $price,
-        string $stock,
+        float $price,
+        int $stock,
         Maker $maker
     )
     {

@@ -279,4 +279,26 @@ class DoctrineContext implements Context
             throw new NotFoundHttpException(sprintf('Expected maker with name :%s', $name));
         }
     }
+
+    /**
+     * @Given user with email :arg1 should have following id :identifier
+     * @param $email
+     * @param $identifier
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws ReflectionException
+     */
+    public function userWithEmailShouldHaveFollowingId($email, $identifier)
+    {
+        $user = $this->doctrine->getManager()->getRepository(User::class)->findUserByEmail($email);
+
+        if (!$user) {
+            throw new NotFoundHttpException(sprintf('Expected user with email : %s', $email));
+        }
+        $reflection =new \ReflectionClass($user);
+        $property = $reflection->getProperty('id');
+        $property->setAccessible(true);
+        $property->setValue($user, $identifier);
+
+        $this->doctrine->getManager()->flush();
+    }
 }

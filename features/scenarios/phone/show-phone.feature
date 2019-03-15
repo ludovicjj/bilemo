@@ -16,7 +16,7 @@ Feature: I need to be able to get phone's details
     And the JSON node "code" should be equal to 403
     And the JSON node "message" should be equal to "Missing token."
 
-  Scenario: [Fail] Submit request with bad id phone
+  Scenario: [Fail] Submit request with bad phone's id
     And phone with name "X5" should have following id "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
     When After authentication on url "/api/login/client" with method "POST" as username "johndoe" and password "passphrase", I send a "GET" request to "/api/phones/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaalol" with body:
     """
@@ -37,5 +37,7 @@ Feature: I need to be able to get phone's details
     And the JSON node "id" should be equal to "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
     And the JSON node "name" should be equal to "X5"
     And the JSON node "description" should be equal to "desciption test"
+    And the JSON node "price" should be equal to 321.15
+    And the JSON node "stock" should be equal to 452
     And the phone with id "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa" should exist in database
     And the maker with name "sony" should exist in database

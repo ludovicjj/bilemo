@@ -38,42 +38,6 @@ class ShowUser
     /**
      * @Route("/api/clients/{client_id}/users/{user_id}", name="show_user", methods={"GET"})
      *
-     * @SWG\Parameter(
-     *     name="client_id",
-     *     in="path",
-     *     type="string",
-     *     description="The client unique identifier.",
-     *     required=true
-     * )
-     * @SWG\Parameter(
-     *     name="user_id",
-     *     in="path",
-     *     type="string",
-     *     description="The user unique identifier.",
-     *     required=true
-     * )
-     * @SWG\Response(
-     *     response=200,
-     *     description="Get one user.",
-     *     @SWG\Schema(
-     *     type="array",
-     *         @SWG\Items(ref=@Model(type=User::class, groups={"show_user"}))
-     *     )
-     * )
-     * @SWG\Response(
-     *     response=401,
-     *     description="Your token is expired, please renew it"
-     * )
-     * @SWG\Response(
-     *     response=403,
-     *     description="you must login to access this resource."
-     * )
-     * @SWG\Response(
-     *     response=404,
-     *     description="User not found for user_id."
-     * )
-     * @Security(name="Bearer")
-     *
      * @param Request $request
      * @return Response
      * @throws \Doctrine\ORM\NonUniqueResultException

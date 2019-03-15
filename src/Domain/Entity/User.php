@@ -50,7 +50,7 @@ use Hateoas\Configuration\Annotation as Hateoas;
 class User
 {
     /**
-     * @var UuidInterface
+     * @var string|UuidInterface
      * @JMS\Expose()
      * @JMS\Type("string")
      * @JMS\Groups({"list_user", "show_user"})
@@ -111,7 +111,7 @@ class User
      */
     public function __construct()
     {
-        $this->id = Uuid::uuid4();
+        $this->id = Uuid::uuid4()->toString();
         $this->createdAt = new \DateTime();
         $this->updatedAt = null;
     }
@@ -138,9 +138,12 @@ class User
         $this->client = $client;
     }
 
-    public function getId(): UuidInterface
+    /**
+     * @return UuidInterface|string
+     */
+    public function getId()
     {
-        return $this->id;
+        return is_object($this->id) ? $this->id->toString() : $this->id;
     }
 
     public function getFirstName(): string

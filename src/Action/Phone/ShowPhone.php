@@ -40,35 +40,6 @@ class ShowPhone
      * @param Request $request
      * @return Response
      * @throws \Doctrine\ORM\NonUniqueResultException
-     *
-     * @SWG\Parameter(
-     *     name="phone_id",
-     *     in="path",
-     *     type="string",
-     *     description="The phone unique identifier.",
-     *     required=true
-     * )
-     * @SWG\Response(
-     *     response=200,
-     *     description="Get one phone.",
-     *     @SWG\Schema(ref="#/definitions/ShowPhoneOutput")
-     * )
-     * @SWG\Response(
-     *     response=401,
-     *     description="Your token is expired, please renew it",
-     *     @SWG\Schema(ref="#/definitions/JwtErrorOutput")
-     * )
-     * @SWG\Response(
-     *     response=403,
-     *     description="Missing or invalid token.",
-     *     @SWG\Schema(ref="#/definitions/JwtErrorOutput")
-     * )
-     * @SWG\Response(
-     *     response=404,
-     *     description="Phone not found.",
-     *     @SWG\Schema(ref="#/definitions/NotFoundOutput")
-     * )
-     * @Security(name="Bearer")
      */
     public function show(Request $request): Response
     {

@@ -44,7 +44,7 @@ nelmio_api_doc:
                           required: true
                           description: Request payload must contain all informations.
                           schema:
-                            $ref: "#/definitions/AuthenticationInput"
+                            $ref: '#/definitions/AuthenticationInput'
                     responses:
                         200:
                             description: OK
@@ -73,7 +73,7 @@ nelmio_api_doc:
                           required: true
                           description: Request payload must contain all informations.
                           schema:
-                              $ref: "#/definitions/ClientInput"
+                              $ref: '#/definitions/ClientInput'
                     responses:
                         201:
                             description: Created
@@ -101,7 +101,7 @@ nelmio_api_doc:
                           required: true
                           description: Request payload must contain all informations
                           schema:
-                              $ref: "#/definitions/UserInput"
+                              $ref: '#/definitions/UserInput'
                     responses:
                         201:
                             description: Created
@@ -109,6 +109,8 @@ nelmio_api_doc:
                             description: Bad Request. Check your request.
                         401:
                             description: Unauthorized. Your token is expired, please renew it.
+                            schema:
+                                $ref: '#/definitions/JwtErrorOutput'
                         403:
                             description: Forbidden. Missing token | Invalid token | Client has no access
 
@@ -119,6 +121,8 @@ nelmio_api_doc:
                         - Client
                     summary: Get all users from client's user catalog.
                     description: '## Access for client'
+                    produces:
+                        - application/json
                     parameters:
                         - in: path
                           name: client_id
@@ -131,13 +135,59 @@ nelmio_api_doc:
                             schema:
                                 type: array
                                 items:
-                                    $ref: "#/definitions/ListUserOutput"
+                                    $ref: '#/definitions/ListUserOutput'
                         204:
                             description: NO CONTENT. Client's user catalog is empty
                         401:
                             description: Unauthorized. Your token is expired, please renew it.
+                            schema:
+                                $ref: '#/definitions/JwtErrorOutput'
                         403:
                             description: Forbidden. Missing token | Invalid token | Client has no access
+
+            /api/clients/{client_id}/users/{user_id}:
+                get:
+                    security:
+                        - Bearer: []
+                    tags:
+                        - Client
+                    summary: Get one user from client's user catalog
+                    description: '## Access for client'
+                    produces:
+                        - application/json
+                    parameters:
+                        - in: path
+                          name: client_id
+                          required: true
+                          type: string
+                          description: The client unique identifier.
+                        - in: path
+                          name: user_id
+                          required: true
+                          type: string
+                          description: The user unique identifier.
+                    responses:
+                        200:
+                            description: OK
+                            schema:
+                                $ref: '#/definitions/ShowUserOutput'
+                        401:
+                            description: Unauthorized. Your token is expired, please renew it.
+                            schema:
+                                $ref: '#/definitions/JwtErrorOutput'
+                        403:
+                            description: Forbidden. Missing token | Invalid token | Client has no access
+                        404:
+                            description: Not Found. User not found for user_id.
+                            schema:
+                                $ref: '#/definitions/NotFoundOutput'
+
+                delete:
+                    security:
+                        - Bearer: []
+                    summary: Delete one user from client's user catalog
+                    tags:
+                        - Client
 
             /api/phones:
                 get:
@@ -147,6 +197,8 @@ nelmio_api_doc:
                         - Phone
                     summary: Get all phones from phone's catalog
                     description: '## Access for client'
+                    produces:
+                        - application/json
                     responses:
                         200:
                             description: OK
@@ -158,9 +210,49 @@ nelmio_api_doc:
                             description: NO_CONTENT. phone's catalog is empty
                         401:
                             description: Unauthorized. Your token is expired, please renew it.
+                            schema:
+                                $ref: '#/definitions/JwtErrorOutput'
                         403:
                             description: Forbidden. Missing token | Invalid token
+                            schema:
+                                $ref: '#/definitions/JwtErrorOutput'
 
+
+            /api/phones/{phone_id}:
+                get:
+                    security:
+                        - Bearer: []
+                    tags:
+                        - Phone
+                    summary: Get one phone from phone's catalog
+                    description: '## Access for client'
+                    produces:
+                        - application/json
+                    parameters:
+                        - in: path
+                          name: phone_id
+                          required: true
+                          type: string
+                          description: The phone unique identifier.
+                    responses:
+                        200:
+                            description: OK
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/definitions/ShowPhoneOutput'
+                        401:
+                            description: Unauthorized. Your token is expired, please renew it.
+                            schema:
+                                $ref: '#/definitions/JwtErrorOutput'
+                        403:
+                            description: Forbidden. Missing token | Invalid token
+                            schema:
+                                $ref: '#/definitions/JwtErrorOutput'
+                        404:
+                            description: Not Found. Phone not found.
+                            schema:
+                                $ref: '#/definitions/NotFoundOutput'
 
         definitions:
             AuthenticationInput:
@@ -210,70 +302,95 @@ nelmio_api_doc:
                 properties:
                     firstName:
                         type: string
-                        required: true
                     lastName:
                         type: string
-                        required: true
                     phoneNumber:
                         type: string
-                        required: true
                     email:
                         type: string
-                        required: true
+                        format: email
+                required:
+                    - firstName
+                    - lastName
+                    - phoneNumber
+                    - email
 
             ShowPhoneOutput:
-                type: array
-                items:
-                    $ref: "#/definitions/ShowPhoneItemsOutput"
-            ShowPhoneItemsOutput:
                 type: object
                 properties:
                     id:
                         type: string
-                        required: true
                     name:
                         type: string
-                        required: true
                     description:
                         type: string
-                        required: true
                     price:
-                        type: integer
-                        required: true
+                        type: number
+                        format: float
                     stock:
                         type: integer
-                        required: true
                     created_at:
                         type: string
-                        format: date-time
-                        required: true
+                        format: date
+                        description: Created date
+                        example: "YYYY-MM-DD"
                     updated_at:
                         type: string
-                        format: date-time
-                        required: false
+                        format: date
+                        description: Updated date, can be null
+                        example: "YYYY-MM-DD|Null"
                     _links:
                         type: object
                         properties:
                             self:
                                 type: object
-                                required: true
                                 properties:
                                     href:
                                         type: string
-                                        required: true
                     _embedded:
                         type: object
                         properties:
                             maker:
                                 type: object
-                                required: true
                                 properties:
                                     id:
                                         type: string
-                                        required: true
                                     name:
                                         type: string
-                                        required: true
+
+            ShowUserOutput:
+                type: object
+                properties:
+                    id:
+                        type: string
+                    first_name:
+                        type: string
+                    last_name:
+                        type: string
+                    phone_number:
+                        type: string
+                    email:
+                        type: string
+                        format: email
+                    created_at:
+                        type: string
+                        format: date
+                        description: Created date
+                        example: "YYYY-MM-DD"
+                    updated_at:
+                        type: string
+                        format: date
+                        description: Updated date, can be null
+                        example: "YYYY-MM-DD|Null"
+                    _links:
+                        type: object
+                        properties:
+                            self:
+                                type: object
+                                properties:
+                                    href:
+                                        type: string
+
 
             ListUserOutput:
                 type: object

@@ -24,6 +24,21 @@ class UserRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param string $email
+     * @return mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function findUserByEmail(string $email)
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.email = :user_email')
+            ->setParameter('user_email', $email)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
+
+    /**
      * @param string $userId
      * @return mixed
      * @throws \Doctrine\ORM\NonUniqueResultException

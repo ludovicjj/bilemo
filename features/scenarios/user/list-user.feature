@@ -1,7 +1,7 @@
 @api_all
 @api_list_user
 
-Feature: i need to be able to get client's user catalog
+Feature: i need to be able to get all users from client's user catalog
   Background:
     Given I load the following client :
       | username | password   | email             |
@@ -13,11 +13,10 @@ Feature: i need to be able to get client's user catalog
     And the JSON node "code" should be equal to 403
     And the JSON node "message" should be equal to "Missing token."
 
-  Scenario: [Fail] Submit request with client has not access to this client's user catalog
-    When After authentication on url "/api/login/client" with method "POST" as username "johndoe" and password "passphrase", I send a "GET" request to "/api/clients/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa/users" with body:
+  Scenario: [Fail] Submit request with invalid client's id
+    And client with username "johndoe" should have following id "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
+    When After authentication on url "/api/login/client" with method "POST" as username "johndoe" and password "passphrase", I send a "GET" request to "/api/clients/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaab/users" with body:
     """
-    {
-    }
     """
     Then the response status code should be 403
     And the JSON node "message" should be equal to "Vous n'êtes pas autorisé à consulter ce catalogue d'utilisateur"
@@ -26,8 +25,6 @@ Feature: i need to be able to get client's user catalog
     And client with username "johndoe" should have following id "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
     When After authentication on url "/api/login/client" with method "POST" as username "johndoe" and password "passphrase", I send a "GET" request to "/api/clients/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa/users" with body:
     """
-    {
-    }
     """
     Then the response status code should be 204
     And the response should be empty

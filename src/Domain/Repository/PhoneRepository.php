@@ -20,9 +20,23 @@ class PhoneRepository extends ServiceEntityRepository
      */
     public function phoneExist(string $phoneId)
     {
-        return $this->createQueryBuilder('phone')
-            ->where('phone.id = :phone_id')
+        return $this->createQueryBuilder('p')
+            ->where('p.id = :phone_id')
             ->setParameter('phone_id', $phoneId)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    /**
+     * @param string $name
+     * @return mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function findPhoneByName(string $name)
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.name = :phone_name')
+            ->setParameter('phone_name', $name)
             ->getQuery()
             ->getOneOrNullResult();
     }

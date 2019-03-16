@@ -59,7 +59,7 @@ class RequestResolver
         $clientId = $request->attributes->get('client_id');
 
         if (!$this->security->isGranted('CLIENT_CHECK', $clientId)) {
-            ProcessorErrorsHttp::throwAccessDenied('Vous n\'êtes pas autorisé à ajouter cet utilisateur.');
+            ProcessorErrorsHttp::throwAccessDenied('Vous n\'êtes pas autorisé à ajouter un utilisateur dans ce catalogue.');
         }
 
 

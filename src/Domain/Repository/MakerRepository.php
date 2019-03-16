@@ -12,4 +12,18 @@ class MakerRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Maker::class);
     }
+
+    /**
+     * @param string $name
+     * @return mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function findMakerByName(string $name)
+    {
+        return $this->createQueryBuilder('m')
+            ->where('m.name = :maker_name')
+            ->setParameter('maker_name', $name)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

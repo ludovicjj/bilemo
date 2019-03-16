@@ -43,4 +43,4 @@ Feature: I need to be able to delete one user in client's user catalog
     """
     """
     Then the response status code should be 204
-    And user with email "toto@gmail.com" should not exist in database
+    And the user with email "toto@gmail.com" should not exist in database

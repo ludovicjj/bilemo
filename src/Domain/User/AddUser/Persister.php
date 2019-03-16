@@ -5,6 +5,7 @@ namespace App\Domain\User\AddUser;
 use App\Domain\Commun\Factory\ErrorsValidationFactory;
 use App\Domain\Commun\Factory\UserFactory;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class Persister
@@ -15,20 +16,29 @@ class Persister
     /** @var ValidatorInterface  */
     protected $validator;
 
+    /** @var UrlGeneratorInterface  */
+    protected $urlGenerator;
+
+    /**
+     * Persister constructor.
+     * @param EntityManagerInterface $entityManager
+     * @param ValidatorInterface $validator
+     * @param UrlGeneratorInterface $urlGenerator
+     */
     public function __construct(
         EntityManagerInterface $entityManager,
-        ValidatorInterface $validator
+        ValidatorInterface $validator,
+        UrlGeneratorInterface $urlGenerator
     )
     {
         $this->entityManager = $entityManager;
         $this->validator = $validator;
+        $this->urlGenerator = $urlGenerator;
     }
 
     /**
      * @param AddUserInput $input
-     *
      * @return array
-     *
      * @throws \Exception
      */
     public function persist(AddUserInput $input)
@@ -48,7 +58,7 @@ class Persister
         $this->entityManager->flush();
 
         return [
-            'location' => sprintf('http://127.0.0.1:8000/api/clients/%s/users/%s',$user->getClient()->getId(), $user->getId())
+            'location' => $this->urlGenerator->generate('show_user', ['client_id' => $user->getClient()->getId(), 'user_id' => $user->getId()])
         ];
     }
 }

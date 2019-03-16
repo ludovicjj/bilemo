@@ -186,8 +186,35 @@ nelmio_api_doc:
                     security:
                         - Bearer: []
                     summary: Delete one user from client's user catalog
+                    description: '## Access for client'
+                    produces:
+                        - application/json
                     tags:
                         - Client
+                    parameters:
+                        - in: path
+                          name: client_id
+                          required: true
+                          type: string
+                          description: The client unique identifier.
+                        - in: path
+                          name: user_id
+                          required: true
+                          type: string
+                          description: The user unique identifier.
+                    responses:
+                        204:
+                            description: No Content
+                        401:
+                            description: Unauthorized. Your token is expired, please renew it.
+                            schema:
+                                $ref: '#/definitions/JwtErrorOutput'
+                        403:
+                            description: Forbidden. Missing token | Invalid token | Client has no access
+                        404:
+                            description: Not Found. User not found for user_id.
+                            schema:
+                                $ref: '#/definitions/NotFoundOutput'
 
             /api/phones:
                 get:

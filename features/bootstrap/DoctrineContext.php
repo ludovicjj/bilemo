@@ -11,12 +11,11 @@ use App\Domain\Commun\Factory\ClientFactory;
 use Behat\Gherkin\Node\TableNode;
 use App\Domain\Entity\Client;
 use App\Domain\Entity\User;
+use App\Domain\Entity\Maker;
 use Doctrine\ORM\NonUniqueResultException;
 use App\Domain\Commun\Factory\UserFactory;
-
-
+use App\Domain\Entity\AbstractEntity;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use App\Domain\Commun\Factory\MakerFactory;
@@ -104,39 +103,59 @@ class DoctrineContext implements Context
         $client = $this->getManager()->getRepository(Client::class)->findClientByUsername($username);
 
         if (!$client) {
-            throw new NotFoundHttpException(sprintf('Expected Client with username: %s', $username));
+            throw new NotFoundHttpException(sprintf('Expected Client with username : %s', $username));
         }
     }
 
-
     /**
-     *
-     *
-     *
-     *
-     *
-     *
-     *
+     * @Given client with username :username should have following id :identifier
+     * @param $username
+     * @param $identifier
+     * @throws ReflectionException
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
-
-    /**
-     * @Then the user with email :email should exist in database
-     * @param $email
-     * @throws NonUniqueResultException
-     * @throws NotFoundHttpException
-     */
-    public function theUserShouldExistInDatabase2($email)
+    public function clientWithUsernameShouldHaveFollowingId($username, $identifier)
     {
-        $user = $this->doctrine->getManager()->getRepository(User::class)
-            ->createQueryBuilder('u')
-            ->where('u.email = :user_email')
-            ->setParameter('user_email', $email)
-            ->getQuery()
-            ->getOneOrNullResult()
-            ;
-        if (!$user) {
-            throw new NotFoundHttpException(sprintf('Expected user with email :%s', $email));
+        $client = $this->getManager()->getRepository(Client::class)->findClientByUsername($username);
+
+        if (!$client) {
+            throw new NotFoundHttpException(sprintf('Expected client with username : %s', $username));
         }
+        $this->resetUuid($client, $identifier);
+    }
+
+    /**
+     * @Given user with email :email should have following id :identifier
+     * @param $email
+     * @param $identifier
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws ReflectionException
+     */
+    public function userWithEmailShouldHaveFollowingId($email, $identifier)
+    {
+        $user = $this->getManager()->getRepository(User::class)->findUserByEmail($email);
+
+        if (!$user) {
+            throw new NotFoundHttpException(sprintf('Expected user with email : %s', $email));
+        }
+        $this->resetUuid($user, $identifier);
+    }
+
+    /**
+     * @Given phone with name :name should have following id :identifier
+     * @param $name
+     * @param $identifier
+     * @throws NonUniqueResultException
+     * @throws ReflectionException
+     */
+    public function phoneWithNameShouldHaveFollowingId($name, $identifier)
+    {
+        $phone = $this->getManager()->getRepository(Phone::class)->findPhoneByName($name);
+
+        if (!$phone) {
+            throw new NotFoundHttpException(sprintf('expected phone with name : %s', $name));
+        }
+        $this->resetUuid($phone, $identifier);
     }
 
     /**
@@ -149,15 +168,10 @@ class DoctrineContext implements Context
     public function clientHaveTheFollowingUser(TableNode $table)
     {
         foreach ($table->getHash() as $hash) {
-            $client = $this->doctrine->getManager()->getRepository(Client::class)
-                ->createQueryBuilder('c')
-                ->where('c.username = :client_username')
-                ->setParameter('client_username', $hash['client'])
-                ->getQuery()
-                ->getOneOrNullResult();
+            $client = $this->doctrine->getManager()->getRepository(Client::class)->findClientByUsername($hash['client']);
 
             if (!$client) {
-                throw new NotFoundHttpException(sprintf('Expected client with username :%s', $hash['client']));
+                throw new NotFoundHttpException(sprintf('Expected client with username : %s', $hash['client']));
             }
 
             $user = UserFactory::create(
@@ -167,29 +181,82 @@ class DoctrineContext implements Context
                 $hash['email'],
                 $client
             );
+
             $this->doctrine->getManager()->persist($user);
         }
         $this->doctrine->getManager()->flush();
     }
 
     /**
-     * @Given client with username :username should have following id :identifier
-     * @param $username
-     * @param $identifier
-     * @throws ReflectionException
+     * @Then the user with email :email should exist in database
+     * @param $email
+     * @throws NonUniqueResultException
+     * @throws NotFoundHttpException
      */
-    public function clientWithUsernameShouldHaveFollowingId($username, $identifier)
+    public function theUserShouldExistInDatabase2($email)
     {
-        $client = $this->doctrine->getManager()->getRepository(Client::class)->findOneBy(['username' => $username ]);
+        $user = $this->doctrine->getManager()->getRepository(User::class)->findUserByEmail($email);
 
-        if (!$client) {
-            throw new NotFoundHttpException(sprintf('Expected client with username :%s', $username));
+        if (!$user) {
+            throw new NotFoundHttpException(sprintf('Expected user with email : %s', $email));
+        }
+    }
+
+    /**
+     * @Then the user with email :arg1 should not exist in database
+     * @param $email
+     * @throws Exception
+     */
+    public function theUserWithEmailShouldNotExistInDatabase($email)
+    {
+        $arrayUser = $this->getManager()->getRepository(User::class)->checkUserNotExistByEmail($email);
+
+        if (count($arrayUser) > 0) {
+            throw new \Exception('expected no user', 500 );
+        }
+    }
+
+    /**
+     * @Then the phone with id :phoneId should exist in database
+     * @param $phoneId
+     * @throws NonUniqueResultException
+     */
+    public function thePhoneWithIdShouldExistInDatabase($phoneId)
+    {
+        $phone = $this->getManager()->getRepository(Phone::class)->phoneExist($phoneId);
+
+        if (!$phone) {
+            throw new NotFoundHttpException(sprintf('Expected phone with id :%s', $phoneId));
         }
 
-        $reflection = new \ReflectionClass($client);
+    }
+
+    /**
+     * @Then the maker with name :name should exist in database
+     * @param $name
+     * @throws NonUniqueResultException
+     */
+    public function theMakerWithNameShouldExistInDatabase($name)
+    {
+        $maker = $this->doctrine->getManager()->getRepository(Maker::class)->findMakerByName($name);
+
+        if (!$maker) {
+            throw new NotFoundHttpException(sprintf('Expected maker with name :%s', $name));
+        }
+    }
+
+
+    /**
+     * @param AbstractEntity $entity
+     * @param string $identifier
+     * @throws ReflectionException
+     */
+    protected function resetUuid(AbstractEntity $entity, string $identifier)
+    {
+        $reflection = new \ReflectionClass($entity);
         $property = $reflection->getProperty('id');
         $property->setAccessible(true);
-        $property->setValue($client, $identifier);
+        $property->setValue($entity, $identifier);
 
         $this->doctrine->getManager()->flush();
     }
@@ -233,95 +300,5 @@ class DoctrineContext implements Context
             $this->doctrine->getManager()->persist($phone);
         }
         $this->doctrine->getManager()->flush();
-    }
-
-    /**
-     * @Given phone with name :arg1 should have following id :arg2
-     * @param $phoneName
-     * @param $identifierPhone
-     * @throws ReflectionException
-     */
-    public function phoneWithNameShouldHaveFollowingId($phoneName, $identifierPhone)
-    {
-        $phone = $this->doctrine->getManager()->getRepository(Phone::class)->findOneBy(['name' => $phoneName]);
-
-        if (!$phone) {
-            throw new NotFoundHttpException(sprintf('expected phone with name : %s', $phoneName));
-        }
-
-        $reflection = new \ReflectionClass($phone);
-        $property = $reflection->getProperty('id');
-        $property->setAccessible(true);
-        $property->setValue($phone, $identifierPhone);
-
-        $this->doctrine->getManager()->flush();
-    }
-
-    /**
-     * @Then the phone with id :phoneId should exist in database
-     * @param $phoneId
-     */
-    public function thePhoneWithIdShouldExistInDatabase($phoneId)
-    {
-        $phone = $this->doctrine->getManager()->getRepository(Phone::class)->findOneBy(['id' => $phoneId]);
-
-        if (!$phone) {
-            throw new NotFoundHttpException(sprintf('Expected phone with id :%s', $phoneId));
-        }
-
-    }
-
-    /**
-     * @Then the maker with name :name should exist in database
-     * @param $name
-     */
-    public function theMakerWithNameShouldExistInDatabase($name)
-    {
-        $maker = $this->doctrine->getManager()->getRepository(\App\Domain\Entity\Maker::class)->findOneBy(['name' => $name]);
-
-        if (!$maker) {
-            throw new NotFoundHttpException(sprintf('Expected maker with name :%s', $name));
-        }
-    }
-
-    /**
-     * @Given user with email :arg1 should have following id :identifier
-     * @param $email
-     * @param $identifier
-     * @throws \Doctrine\ORM\NonUniqueResultException
-     * @throws ReflectionException
-     */
-    public function userWithEmailShouldHaveFollowingId($email, $identifier)
-    {
-        $user = $this->doctrine->getManager()->getRepository(User::class)->findUserByEmail($email);
-
-        if (!$user) {
-            throw new NotFoundHttpException(sprintf('Expected user with email : %s', $email));
-        }
-        $reflection = new \ReflectionClass($user);
-        $property = $reflection->getProperty('id');
-        $property->setAccessible(true);
-        $property->setValue($user, $identifier);
-
-        $this->doctrine->getManager()->flush();
-    }
-
-    /**
-     * @Then user with email :arg1 should not exist in database
-     * @param $email
-     * @throws Exception
-     */
-    public function userWithEmailShouldNotExistInDatabase($email)
-    {
-        $arrayUser = $this->doctrine->getManager()->getRepository(User::class)
-            ->createQueryBuilder('u')
-            ->where('u.email = :user_email')
-            ->setParameter('user_email', $email)
-            ->getQuery()
-            ->getScalarResult();
-
-        if (count($arrayUser) > 0) {
-            throw new \Exception('expected no user', 500 );
-        }
     }
 }

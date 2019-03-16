@@ -1,7 +1,7 @@
 @api_all
 @api_show_user
 
-Feature: i need to be able to get a user from client's user catalog
+Feature: i need to be able to get one user from client's user catalog
   Background:
     Given I load the following client :
       | username | password   | email             |
@@ -33,7 +33,7 @@ Feature: i need to be able to get a user from client's user catalog
     Then the response status code should be 404
     And the JSON node "message" should be equal to "Aucun utilisateur ne correspond à l'id : aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaab"
 
-  Scenario: [Success] Submit request with valid client's id and valid user's id
+  Scenario: [Success] Submit request with valid client's id and user's id
     And client with username "johndoe" should have following id "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
     And client have the following user:
       | firstName | lastName | phoneNumber | email         | client  |

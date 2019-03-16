@@ -2,7 +2,6 @@
 
 namespace App\Domain\User\DeleteUser;
 
-use App\Domain\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 
 class Deleter
@@ -11,7 +10,7 @@ class Deleter
     protected $entityManager;
 
     /**
-     * Persister constructor.
+     * Deleter constructor.
      * @param EntityManagerInterface $entityManager
      */
     public function __construct(
@@ -26,8 +25,7 @@ class Deleter
      */
     public function delete(DeleteUserInput $input): void
     {
-        $user = $this->entityManager->getRepository(User::class)->findOneBy(['id' => $input->getUser()->getId()]);
-        $this->entityManager->remove($user);
+        $this->entityManager->remove($input->getUser());
         $this->entityManager->flush();
     }
 }

@@ -16,17 +16,15 @@ Feature: I need to be able to get phone's details
     And the JSON node "code" should be equal to 403
     And the JSON node "message" should be equal to "Missing token."
 
-  Scenario: [Fail] Submit request with bad phone's id
+  Scenario: [Fail] Submit request with invalid phone's id
     And phone with name "X5" should have following id "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
-    When After authentication on url "/api/login/client" with method "POST" as username "johndoe" and password "passphrase", I send a "GET" request to "/api/phones/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaalol" with body:
+    When After authentication on url "/api/login/client" with method "POST" as username "johndoe" and password "passphrase", I send a "GET" request to "/api/phones/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaab" with body:
     """
-    {
-    }
     """
     Then the response status code should be 404
-    And the JSON node "message" should be equal to "Aucun téléphone ne correspond à l'id : aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaalol"
+    And the JSON node "message" should be equal to "Aucun téléphone ne correspond à l'id : aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaab"
 
-  Scenario: [Success] Submit request with authentication and invalid phone id
+  Scenario: [Success] Submit request with authentication and valid phone id
     And phone with name "X5" should have following id "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
     When After authentication on url "/api/login/client" with method "POST" as username "johndoe" and password "passphrase", I send a "GET" request to "/api/phones/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa" with body:
     """

@@ -15,9 +15,9 @@ class UserRepository extends ServiceEntityRepository
 
     public function findUserByClientId(string $clientId): ? array
     {
-        return $this->createQueryBuilder('user')
-            ->leftJoin('user.client', 'client')
-            ->andWhere('client.id = :client_id')
+        return $this->createQueryBuilder('u')
+            ->leftJoin('u.client', 'c')
+            ->andWhere('c.id = :client_id')
             ->setParameter('client_id',  $clientId)
             ->getQuery()
             ->getResult();
@@ -50,5 +50,14 @@ class UserRepository extends ServiceEntityRepository
             ->setParameter('user_id', $userId)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    public function checkUserNotExistByEmail(string $email)
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.email = :user_email')
+            ->setParameter('user_email', $email)
+            ->getQuery()
+            ->getScalarResult();
     }
 }

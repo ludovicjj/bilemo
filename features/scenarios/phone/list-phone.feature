@@ -16,12 +16,10 @@ Feature: I need to be able to get all phones
   Scenario: [Fail] Submit request with authentication and without fixtures
     When After authentication on url "/api/login/client" with method "POST" as username "johndoe" and password "passphrase", I send a "GET" request to "/api/phones" with body:
     """
-    {
-    }
     """
     Then the response status code should be 204
     And the response should be empty
-    And the client "johndoe" should exist in database
+    And the client with username "johndoe" should exist in database
 
   Scenario: [Success] Submit request with authentication and fixtures
     And I load fixtures with the following command "doctrine:fixtures:load"
@@ -35,4 +33,4 @@ Feature: I need to be able to get all phones
     """
     Then the response status code should be 200
     And the JSON node "root" should have 5 elements
-    And the client "johndoe" should exist in database
+    And the client with username "johndoe" should exist in database

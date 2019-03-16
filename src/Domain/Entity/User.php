@@ -2,8 +2,6 @@
 
 namespace App\Domain\Entity;
 
-use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
 use JMS\Serializer\Annotation as JMS;
 use Hateoas\Configuration\Annotation as Hateoas;
 
@@ -41,7 +39,7 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *     "add",
  *     href = @Hateoas\Route(
  *          "add_user",
- *          parameters = { "client_id" = "expr(object.getClient().getId())", "user_id" = "expr(object.getId())" },
+ *          parameters = { "client_id" = "expr(object.getClient().getId())" },
  *          absolute = true
  *     ),
  *     exclusion=@Hateoas\Exclusion(groups={"list_user"})

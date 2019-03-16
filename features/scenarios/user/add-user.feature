@@ -13,6 +13,17 @@ Feature: i need to be able to add user
     And the JSON node "code" should be equal to 403
     And the JSON node "message" should be equal to "Missing token."
 
+  Scenario: [Fail] Submit request with invalid client's id
+    And client with username "johndoe" should have following id "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
+    When After authentication on url "/api/login/client" with method "POST" as username "johndoe" and password "passphrase", I send a "POST" request to "/api/clients/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaab/users" with body:
+    """
+    {
+    }
+    """
+    Then the response status code should be 403
+    And the JSON node "message" should be equal to "Vous n'êtes pas autorisé à ajouter un utilisateur dans ce catalogue."
+
+
   Scenario: [Fail] Submit request with invalid payload.
     And client with username "johndoe" should have following id "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
     When After authentication on url "/api/login/client" with method "POST" as username "johndoe" and password "passphrase", I send a "POST" request to "/api/clients/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa/users" with body:
@@ -38,16 +49,6 @@ Feature: i need to be able to add user
       ]
     }
     """
-
-  Scenario: [Fail] Submit request with client has no access to add this user
-    And client with username "johndoe" should have following id "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
-    When After authentication on url "/api/login/client" with method "POST" as username "johndoe" and password "passphrase", I send a "POST" request to "/api/clients/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaab/users" with body:
-    """
-    {
-    }
-    """
-    Then the response status code should be 403
-    And the JSON node "message" should be equal to "Vous n'êtes pas autorisé à ajouter cet utilisateur."
 
   Scenario: [Fail] Submit request with user's email and user's phone number already exist
     And client with username "johndoe" should have following id "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"

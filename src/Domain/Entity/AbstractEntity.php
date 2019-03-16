@@ -5,7 +5,7 @@ namespace App\Domain\Entity;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
-class AbstractEntity
+abstract class AbstractEntity
 {
     /** @var string|UuidInterface */
     protected $id;

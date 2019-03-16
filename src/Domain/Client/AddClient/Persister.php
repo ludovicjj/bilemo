@@ -5,6 +5,7 @@ namespace App\Domain\Client\AddClient;
 use App\Domain\Commun\Factory\ErrorsValidationFactory;
 use App\Domain\Entity\Client;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use App\Domain\Commun\Factory\ClientFactory;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
@@ -20,21 +21,27 @@ class Persister
     /** @var EncoderFactoryInterface  */
     protected $encoderFactory;
 
+    /** @var UrlGeneratorInterface  */
+    protected $urlGenerator;
+
     /**
      * Persister constructor.
      * @param EntityManagerInterface $entityManager
      * @param ValidatorInterface $validator
      * @param EncoderFactoryInterface $encoderFactory
+     * @param UrlGeneratorInterface $urlGenerator
      */
     public function __construct(
         EntityManagerInterface $entityManager,
         ValidatorInterface $validator,
-        EncoderFactoryInterface $encoderFactory
+        EncoderFactoryInterface $encoderFactory,
+        UrlGeneratorInterface $urlGenerator
     )
     {
         $this->entityManager = $entityManager;
         $this->validator = $validator;
         $this->encoderFactory = $encoderFactory;
+        $this->urlGenerator = $urlGenerator;
     }
 
     /**
@@ -59,7 +66,7 @@ class Persister
         $this->entityManager->flush();
 
         return [
-            'location' => sprintf('http://127.0.0.1:8000/api/clients/%s', $client->getId())
+            'location' => $this->urlGenerator->generate('api_client_login')
         ];
     }
 }

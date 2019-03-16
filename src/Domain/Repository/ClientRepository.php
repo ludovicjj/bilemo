@@ -12,4 +12,18 @@ class ClientRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Client::class);
     }
+
+    /**
+     * @param string $username
+     * @return mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function findClientByUsername(string $username)
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.username = :client_username')
+            ->setParameter('client_username', $username)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

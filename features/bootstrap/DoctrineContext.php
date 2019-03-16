@@ -50,7 +50,6 @@ class DoctrineContext implements Context
 
     /**
      * @BeforeScenario
-     *
      * @throws \Doctrine\ORM\Tools\ToolsException
      */
     public function clearDatabase()
@@ -70,7 +69,6 @@ class DoctrineContext implements Context
 
     /**
      * @param string $classEncoder
-     *
      * @return PasswordEncoderInterface
      */
     private function getEncoder(string $classEncoder)
@@ -83,7 +81,7 @@ class DoctrineContext implements Context
      * @param TableNode $table
      * @throws Exception
      */
-    public function ILoadTheFollowingUser(TableNode $table)
+    public function iLoadTheFollowingUser(TableNode $table)
     {
         foreach ($table->getHash() as $hash) {
             $user = ClientFactory::create(
@@ -97,25 +95,29 @@ class DoctrineContext implements Context
     }
 
     /**
-     * @Then the client :username should exist in database
-     *
-     * @param $username
+     * @Then the client with username :arg1 should exist in database
      * @throws NonUniqueResultException
-     * @throws NotFoundHttpException
+     * @param $username
      */
-    public function theClientShouldExistInDatabase($username)
+    public function theClientWithUsernameShouldExistInDatabase($username)
     {
-        $client = $this->doctrine->getManager()->getRepository(Client::class)
-            ->createQueryBuilder('c')
-            ->where('c.username = :client_username')
-            ->setParameter('client_username', $username)
-            ->getQuery()
-            ->getOneOrNullResult();
+        $client = $this->getManager()->getRepository(Client::class)->findClientByUsername($username);
 
         if (!$client) {
-            throw new NotFoundHttpException(sprintf('Aucun client ne correspond au username : %s', $username));
+            throw new NotFoundHttpException(sprintf('Expected Client with username: %s', $username));
         }
     }
+
+
+    /**
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     */
 
     /**
      * @Then the user with email :email should exist in database
@@ -306,7 +308,7 @@ class DoctrineContext implements Context
 
     /**
      * @Then user with email :arg1 should not exist in database
-     * @parm $email
+     * @param $email
      * @throws Exception
      */
     public function userWithEmailShouldNotExistInDatabase($email)

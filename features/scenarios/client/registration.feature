@@ -1,5 +1,5 @@
 @api_all
-@api_registration
+@api_registration_client
 
 Feature: As an anonymous user, I need to be able to submit registration request
   Background:
@@ -28,43 +28,7 @@ Feature: As an anonymous user, I need to be able to submit registration request
       ]
     }
     """
-  Scenario: [Fail] Submit request with already exist username.
-    When I send a "POST" request to "/api/clients" with body :
-    """
-    {
-      "username": "johndoe",
-      "password": "passphrase",
-      "email": "test@yopmail.com"
-    }
-    """
-    Then the response status code should be 400
-    And the JSON should be equal to:
-    """
-    {
-      "username": [
-        "Ce pseudo est déjà utilisé."
-      ]
-    }
-    """
-  Scenario: [Fail] Submit request with already exist email.
-    When I send a "POST" request to "/api/clients" with body :
-    """
-    {
-      "username": "toto",
-      "password": "passphrase",
-      "email": "johndoe@gmail.com"
-    }
-    """
-    Then the response status code should be 400
-    And the JSON should be equal to:
-    """
-    {
-      "email": [
-        "Cette adresse e-mail est déjà utilisée."
-      ]
-    }
-    """
-  Scenario: [Fail] Submit request with already exist username and email.
+  Scenario: [Fail] Submit request with already exist username and email in payload.
     When I send a "POST" request to "/api/clients" with body :
     """
     {
@@ -85,7 +49,7 @@ Feature: As an anonymous user, I need to be able to submit registration request
       ]
     }
     """
-  Scenario: [Success] Submit request with valid data.
+  Scenario: [Success] Submit request with valid payload.
     When I send a "POST" request to "/api/clients" with body :
     """
     {
@@ -96,6 +60,4 @@ Feature: As an anonymous user, I need to be able to submit registration request
     """
     Then the response status code should be 201
     And the response should be empty
-    And the client "toto" should exist in database
-
-
+    And the client with username "toto" should exist in database

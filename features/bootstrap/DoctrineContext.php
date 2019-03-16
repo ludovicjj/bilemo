@@ -13,6 +13,8 @@ use App\Domain\Entity\Client;
 use App\Domain\Entity\User;
 use Doctrine\ORM\NonUniqueResultException;
 use App\Domain\Commun\Factory\UserFactory;
+
+
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 use Symfony\Bundle\FrameworkBundle\Console\Application;
@@ -294,11 +296,30 @@ class DoctrineContext implements Context
         if (!$user) {
             throw new NotFoundHttpException(sprintf('Expected user with email : %s', $email));
         }
-        $reflection =new \ReflectionClass($user);
+        $reflection = new \ReflectionClass($user);
         $property = $reflection->getProperty('id');
         $property->setAccessible(true);
         $property->setValue($user, $identifier);
 
         $this->doctrine->getManager()->flush();
+    }
+
+    /**
+     * @Then user with email :arg1 should not exist in database
+     * @parm $email
+     * @throws Exception
+     */
+    public function userWithEmailShouldNotExistInDatabase($email)
+    {
+        $arrayUser = $this->doctrine->getManager()->getRepository(User::class)
+            ->createQueryBuilder('u')
+            ->where('u.email = :user_email')
+            ->setParameter('user_email', $email)
+            ->getQuery()
+            ->getScalarResult();
+
+        if (count($arrayUser) > 0) {
+            throw new \Exception('expected no user', 500 );
+        }
     }
 }

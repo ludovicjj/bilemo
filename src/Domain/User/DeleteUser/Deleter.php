@@ -26,7 +26,7 @@ class Deleter
      */
     public function delete(DeleteUserInput $input): void
     {
-        $user = $this->entityManager->getRepository(User::class)->findOneBy(['id' => $input->getUser()->getId()->toString()]);
+        $user = $this->entityManager->getRepository(User::class)->findOneBy(['id' => $input->getUser()->getId()]);
         $this->entityManager->remove($user);
         $this->entityManager->flush();
     }

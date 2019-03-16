@@ -3,8 +3,6 @@
 namespace App\Domain\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use JMS\Serializer\Annotation as JMS;
 
@@ -13,12 +11,8 @@ use JMS\Serializer\Annotation as JMS;
  * @package App\Domain\Entity
  * @JMS\ExclusionPolicy("all")
  */
-class Client implements UserInterface
+class Client extends AbstractEntity implements UserInterface
 {
-    /**
-     * @var string|UuidInterface
-     */
-    protected $id;
     /**
      * @var string
      */
@@ -57,11 +51,11 @@ class Client implements UserInterface
      */
     public function __construct()
     {
-        $this->id = Uuid::uuid4()->toString();
         $this->users = new ArrayCollection();
         $this->createdAt = new \DateTime();
         $this->updatedAt = null;
         $this->roles = ['ROLE_CLIENT'];
+        parent::__construct();
     }
 
     /**
@@ -81,38 +75,48 @@ class Client implements UserInterface
     }
 
     /**
-     * @return UuidInterface|string
+     * @return string
      */
-    public function getId()
-    {
-        return is_object($this->id) ? $this->id->toString() : $this->id;
-    }
-
     public function getUsername(): string
     {
         return $this->username;
     }
 
+    /**
+     * @return string
+     */
     public function getPassword(): string
     {
         return $this->password;
     }
 
+    /**
+     * @return \DateTime
+     */
     public function getCreatedAt(): \DateTime
     {
         return $this->createdAt;
     }
 
+    /**
+     * @return \DateTime|null
+     */
     public function getUpdatedAt(): ?\DateTime
     {
         return $this->updatedAt;
     }
 
+    /**
+     * @return array
+     */
     public function getRoles(): array
     {
         return $this->roles;
     }
 
+    /**
+     * @return string
+     */
     public function getEmail(): string
     {
         return $this->email;
@@ -125,6 +129,7 @@ class Client implements UserInterface
     {
         return $this->users;
     }
+
 
     public function getSalt(): void
     {

@@ -4,7 +4,6 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                    https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
     <entity name="App\Domain\Entity\Phone" table="lj_phone" repository-class="App\Domain\Repository\PhoneRepository">
-        <id name="id" type="uuid"  />
         <field name="name" type="string" length="255" />
         <field name="description" type="text" />
         <field name="price" type="float" />

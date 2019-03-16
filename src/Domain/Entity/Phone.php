@@ -2,8 +2,6 @@
 
 namespace App\Domain\Entity;
 
-use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
 use JMS\Serializer\Annotation as Serializer;
 use Hateoas\Configuration\Annotation as Hateoas;
 
@@ -36,16 +34,8 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *     exclusion = @Hateoas\Exclusion(groups={"show_phone"})
  * )
  */
-class Phone
+class Phone extends AbstractEntity
 {
-    /**
-     * @var string|UuidInterface
-     * @Serializer\Expose()
-     * @Serializer\Type("string")
-     * @Serializer\Groups({"list_phone", "show_phone"})
-     */
-    protected $id;
-
     /**
      * @var string
      * @Serializer\Expose()
@@ -101,9 +91,9 @@ class Phone
      */
     public function __construct()
     {
-        $this->id = Uuid::uuid4()->toString();
         $this->createdAt = new \DateTime();
         $this->updatedAt = null;
+        parent::__construct();
     }
 
     /**
@@ -126,14 +116,6 @@ class Phone
         $this->price = $price;
         $this->stock = $stock;
         $this->maker = $maker;
-    }
-
-    /**
-     * @return UuidInterface|string
-     */
-    public function getId()
-    {
-        return is_object($this->id) ? $this->id->toString() : $this->id;
     }
 
     public function getName(): string

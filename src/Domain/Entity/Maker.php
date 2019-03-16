@@ -3,20 +3,10 @@
 namespace App\Domain\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
 use JMS\Serializer\Annotation as Serializer;
 
-class Maker
+class Maker extends AbstractEntity
 {
-    /**
-     * @var UuidInterface
-     * @Serializer\Expose()
-     * @Serializer\Type("string")
-     * @Serializer\Groups({"show_phone"})
-     */
-    protected $id;
-
     /**
      * @var string
      * @Serializer\Expose()
@@ -33,8 +23,8 @@ class Maker
      */
     public function __construct()
     {
-        $this->id = Uuid::uuid4();
         $this->phones = new ArrayCollection();
+        parent::__construct();
     }
 
     /**
@@ -45,10 +35,6 @@ class Maker
         $this->name = $name;
     }
 
-    public function getId(): UuidInterface
-    {
-        return $this->id;
-    }
 
     public function getName(): string
     {

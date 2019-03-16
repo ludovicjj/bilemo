@@ -47,16 +47,8 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *     exclusion=@Hateoas\Exclusion(groups={"list_user"})
  * )
  */
-class User
+class User extends AbstractEntity
 {
-    /**
-     * @var string|UuidInterface
-     * @JMS\Expose()
-     * @JMS\Type("string")
-     * @JMS\Groups({"list_user", "show_user"})
-     */
-    protected $id;
-
     /**
      * @var string
      * @JMS\Expose()
@@ -111,9 +103,9 @@ class User
      */
     public function __construct()
     {
-        $this->id = Uuid::uuid4()->toString();
         $this->createdAt = new \DateTime();
         $this->updatedAt = null;
+        parent::__construct();
     }
 
     /**
@@ -136,14 +128,6 @@ class User
         $this->phoneNumber = $phoneNumber;
         $this->email = $email;
         $this->client = $client;
-    }
-
-    /**
-     * @return UuidInterface|string
-     */
-    public function getId()
-    {
-        return is_object($this->id) ? $this->id->toString() : $this->id;
     }
 
     public function getFirstName(): string

@@ -18,7 +18,7 @@ class UserRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('u')
             ->leftJoin('u.client', 'c')
             ->andWhere('c.id = :client_id')
-            ->setParameter('client_id',  $clientId)
+            ->setParameter('client_id', $clientId)
             ->getQuery()
             ->getResult();
     }

@@ -5,7 +5,6 @@ namespace App\Domain\Phone\ShowPhone;
 use App\Domain\Entity\Phone;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Domain\Commun\Exceptions\ProcessorErrorsHttp;
 
 class RequestResolver
@@ -19,8 +18,7 @@ class RequestResolver
     public function __construct(
         ShowPhoneInput $input,
         EntityManagerInterface $entityManager
-    )
-    {
+    ) {
         $this->showPhoneInput = $input;
         $this->entityManager = $entityManager;
     }

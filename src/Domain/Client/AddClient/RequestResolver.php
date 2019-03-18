@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-
 class RequestResolver
 {
     /** @var SerializerInterface */
@@ -25,8 +24,7 @@ class RequestResolver
     public function __construct(
         SerializerInterface $serializer,
         ValidatorInterface $validator
-    )
-    {
+    ) {
         $this->serializer = $serializer;
         $this->validator = $validator;
     }

@@ -67,8 +67,7 @@ class Client extends AbstractEntity implements UserInterface
         string $username,
         string $password,
         string $email
-    )
-    {
+    ) {
         $this->username = $username;
         $this->password = $password;
         $this->email = $email;

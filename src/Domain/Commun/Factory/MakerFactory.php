@@ -13,8 +13,7 @@ class MakerFactory
      */
     public static function create(
         string $name
-    )
-    {
+    ) {
         $maker = new Maker();
         $maker->createMaker($name);
 

@@ -5,7 +5,6 @@ namespace App\Domain\Security;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-
 class ClientVoter extends Voter
 {
     protected function supports($attribute, $object)
@@ -15,7 +14,6 @@ class ClientVoter extends Voter
          * Créer un nouveau votant qui décide de l'accès chaque fois que nous passons CLIENT_ADD à isGranted().
          */
         if ($attribute != 'CLIENT_CHECK') {
-
             return false;
         }
 
@@ -27,7 +25,6 @@ class ClientVoter extends Voter
         $currentClientId = $token->getUser()->getId();
 
         if ($object !== $currentClientId) {
-
             return false;
         }
 

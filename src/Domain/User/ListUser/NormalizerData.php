@@ -16,8 +16,7 @@ class NormalizerData
      */
     public function __construct(
         SerializerInterface $serializer
-    )
-    {
+    ) {
         $this->serializer = $serializer;
     }
 
@@ -28,11 +27,9 @@ class NormalizerData
             'json',
             SerializationContext::create()->setGroups(['list_user'])
         );
-
         $result = json_decode($data);
 
         if (count($result) === 0) {
-
             return null;
         }
 

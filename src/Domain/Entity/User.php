@@ -119,8 +119,7 @@ class User extends AbstractEntity
         string $phoneNumber,
         string $email,
         Client $client
-    )
-    {
+    ) {
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->phoneNumber = $phoneNumber;

@@ -16,8 +16,7 @@ class NormalizerData
      */
     public function __construct(
         SerializerInterface $serializer
-    )
-    {
+    ) {
         $this->serializer = $serializer;
     }
 

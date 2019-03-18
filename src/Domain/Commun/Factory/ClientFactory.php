@@ -19,8 +19,7 @@ class ClientFactory
         string $username,
         string $password,
         string $email
-    )
-    {
+    ) {
         $client = new Client();
         $client->createClient(
             $username,

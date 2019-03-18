@@ -27,8 +27,7 @@ class AddClient
     public function __construct(
         RequestResolver $requestResolver,
         Persister $persister
-    )
-    {
+    ) {
         $this->requestResolver = $requestResolver;
         $this->persister = $persister;
     }
@@ -52,6 +51,5 @@ class AddClient
             Response::HTTP_CREATED,
             $output
         );
-
     }
 }

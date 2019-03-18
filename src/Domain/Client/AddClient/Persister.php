@@ -36,8 +36,7 @@ class Persister
         ValidatorInterface $validator,
         EncoderFactoryInterface $encoderFactory,
         UrlGeneratorInterface $urlGenerator
-    )
-    {
+    ) {
         $this->entityManager = $entityManager;
         $this->validator = $validator;
         $this->encoderFactory = $encoderFactory;

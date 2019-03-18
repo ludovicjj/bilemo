@@ -29,8 +29,7 @@ class Persister
         EntityManagerInterface $entityManager,
         ValidatorInterface $validator,
         UrlGeneratorInterface $urlGenerator
-    )
-    {
+    ) {
         $this->entityManager = $entityManager;
         $this->validator = $validator;
         $this->urlGenerator = $urlGenerator;
@@ -58,7 +57,10 @@ class Persister
         $this->entityManager->flush();
 
         return [
-            'location' => $this->urlGenerator->generate('show_user', ['client_id' => $user->getClient()->getId(), 'user_id' => $user->getId()])
+            'location' => $this->urlGenerator->generate(
+                'show_user',
+                ['client_id' => $user->getClient()->getId(), 'user_id' => $user->getId()]
+            )
         ];
     }
 }

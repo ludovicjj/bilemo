@@ -109,8 +109,7 @@ class Phone extends AbstractEntity
         float $price,
         int $stock,
         Maker $maker
-    )
-    {
+    ) {
         $this->name = $name;
         $this->description = $description;
         $this->price = $price;

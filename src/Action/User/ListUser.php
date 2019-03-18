@@ -25,8 +25,7 @@ class ListUser
     public function __construct(
         Loader $loader,
         NormalizerData $normalizerData
-    )
-    {
+    ) {
         $this->loader = $loader;
         $this->normalizerData = $normalizerData;
     }
@@ -47,6 +46,5 @@ class ListUser
             $data,
             is_null($data) ? Response::HTTP_NO_CONTENT : Response::HTTP_OK
         );
-
     }
 }

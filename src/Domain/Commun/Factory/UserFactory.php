@@ -22,8 +22,7 @@ class UserFactory
         string $phoneNumber,
         string $email,
         Client $client
-    )
-    {
+    ) {
         $user = new User();
         $user->createUser(
             $firstName,

@@ -37,8 +37,7 @@ class RequestResolver
         ValidatorInterface $validator,
         SerializerInterface $serializer,
         Security $security
-    )
-    {
+    ) {
         $this->tokenStorage = $tokenStorage;
         $this->validator = $validator;
         $this->serializer = $serializer;
@@ -59,7 +58,9 @@ class RequestResolver
         $clientId = $request->attributes->get('client_id');
 
         if (!$this->security->isGranted('CLIENT_CHECK', $clientId)) {
-            ProcessorErrorsHttp::throwAccessDenied('Vous n\'êtes pas autorisé à ajouter un utilisateur dans ce catalogue.');
+            ProcessorErrorsHttp::throwAccessDenied(
+                'Vous n\'êtes pas autorisé à ajouter un utilisateur dans ce catalogue.'
+            );
         }
 
 

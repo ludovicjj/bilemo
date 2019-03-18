@@ -16,8 +16,7 @@ class JsonResponder
         ?string $data,
         int $statusCode = Response::HTTP_OK,
         array $additionalHeaders = []
-    )
-    {
+    ) {
         return new Response(
             $data,
             $statusCode,

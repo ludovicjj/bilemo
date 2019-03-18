@@ -26,8 +26,7 @@ class DeleteUser
     public function __construct(
         RequestResolver $requestResolver,
         Deleter $deleter
-    )
-    {
+    ) {
         $this->requestResolver = $requestResolver;
         $this->deleter = $deleter;
     }

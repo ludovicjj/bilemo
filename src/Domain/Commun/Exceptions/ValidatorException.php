@@ -21,8 +21,7 @@ class ValidatorException extends \Exception
     public function __construct(
         int $statusCode,
         array $errors
-    )
-    {
+    ) {
         $this->statusCode = $statusCode;
         $this->errors = $errors;
     }

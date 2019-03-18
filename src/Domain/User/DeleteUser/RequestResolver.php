@@ -29,11 +29,10 @@ class RequestResolver
         EntityManagerInterface $entityManager,
         DeleteUserInput $deleteUserInput,
         Security $security
-    )
-    {
-       $this->entityManager = $entityManager;
-       $this->deleteUserInput = $deleteUserInput;
-       $this->security = $security;
+    ) {
+        $this->entityManager = $entityManager;
+        $this->deleteUserInput = $deleteUserInput;
+        $this->security = $security;
     }
 
     /**
@@ -47,7 +46,9 @@ class RequestResolver
         $userId = $request->attributes->get('user_id');
 
         if (!$this->security->isGranted('CLIENT_CHECK', $clientId)) {
-            ProcessorErrorsHttp::throwAccessDenied('Vous n\'êtes pas autorisé à supprimer un utilisateur dans ce catalogue.');
+            ProcessorErrorsHttp::throwAccessDenied(
+                'Vous n\'êtes pas autorisé à supprimer un utilisateur dans ce catalogue.'
+            );
         }
 
         /** @var User $user */

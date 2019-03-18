@@ -8,10 +8,6 @@ use App\Responders\JsonResponder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Swagger\Annotations as SWG;
-use Nelmio\ApiDocBundle\Annotation\Security;
-use Nelmio\ApiDocBundle\Annotation\Model;
-use App\Domain\Entity\Phone;
 
 class ShowPhone
 {
@@ -29,8 +25,7 @@ class ShowPhone
     public function __construct(
         RequestResolver $requestResolver,
         NormalizerData $normalizerData
-    )
-    {
+    ) {
         $this->requestResolver = $requestResolver;
         $this->normalizerData = $normalizerData;
     }

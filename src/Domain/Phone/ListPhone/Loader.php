@@ -21,8 +21,7 @@ class Loader
     public function __construct(
         ListPhoneInput $listPhoneInput,
         EntityManagerInterface $entityManager
-    )
-    {
+    ) {
         $this->listPhoneInput = $listPhoneInput;
         $this->entityManager = $entityManager;
     }

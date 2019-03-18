@@ -22,8 +22,7 @@ class PhoneFactory
         float $price,
         int $stock,
         Maker $maker
-    )
-    {
+    ) {
         $phone = new Phone();
         $phone->createPhone(
             $name,

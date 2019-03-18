@@ -5,7 +5,6 @@ namespace App\Domain\User\ShowUser;
 use App\Domain\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Security;
 use App\Domain\Commun\Exceptions\ProcessorErrorsHttp;
 
@@ -29,8 +28,7 @@ class RequestResolver
         EntityManagerInterface $entityManager,
         ShowUserInput $showUserInput,
         Security $security
-    )
-    {
+    ) {
         $this->entityManager = $entityManager;
         $this->showUserInput = $showUserInput;
         $this->security = $security;
@@ -46,7 +44,9 @@ class RequestResolver
         $clientId = $request->attributes->get('client_id');
 
         if (!$this->security->isGranted('CLIENT_CHECK', $clientId)) {
-            ProcessorErrorsHttp::throwAccessDenied('Vous n\'êtes pas autorisé à consulter les informations de cet utilisateur.');
+            ProcessorErrorsHttp::throwAccessDenied(
+                'Vous n\'êtes pas autorisé à consulter les informations de cet utilisateur.'
+            );
         }
 
         $userId = $request->attributes->get('user_id');

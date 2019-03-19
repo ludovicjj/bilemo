@@ -24,6 +24,7 @@ class ValidatorException extends \Exception
     ) {
         $this->statusCode = $statusCode;
         $this->errors = $errors;
+        parent::__construct();
     }
 
     public function getStatusCode(): int

@@ -3,8 +3,10 @@
 namespace App\Domain\User\ListUser;
 
 use App\Domain\Commun\Exceptions\ProcessorErrorsHttp;
+use App\Domain\Entity\Client;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Security;
 
 class Loader
@@ -41,7 +43,12 @@ class Loader
     public function load(Request $request): ListUserInput
     {
         $clientId = $request->attributes->get('client_id');
-        $client = $this->tokenStorage->getToken()->getUser();
+
+        /** @var TokenInterface|null $token */
+        $token = $this->tokenStorage->getToken();
+
+        /** @var Client|string $client */
+        $client = !is_null($token) ? $token->getUser() : null;
 
         if (!$this->security->isGranted('CLIENT_CHECK', $clientId)) {
             ProcessorErrorsHttp::throwAccessDenied('Vous n\'êtes pas autorisé à consulter ce catalogue d\'utilisateur');

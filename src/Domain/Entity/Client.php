@@ -26,7 +26,7 @@ class Client extends AbstractEntity implements UserInterface
      */
     protected $createdAt;
     /**
-     * @var \DateTime
+     * @var \DateTime|null
      */
     protected $updatedAt;
     /**
@@ -129,8 +129,10 @@ class Client extends AbstractEntity implements UserInterface
         return $this->users;
     }
 
-
-    public function getSalt(): void
+    /**
+     * @return string|void|null
+     */
+    public function getSalt()
     {
         return;
     }

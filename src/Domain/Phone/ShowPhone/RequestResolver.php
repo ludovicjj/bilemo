@@ -3,6 +3,7 @@
 namespace App\Domain\Phone\ShowPhone;
 
 use App\Domain\Entity\Phone;
+use App\Domain\Repository\PhoneRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use App\Domain\Commun\Exceptions\ProcessorErrorsHttp;
@@ -31,7 +32,12 @@ class RequestResolver
     public function resolve(Request $request): ShowPhoneInput
     {
         $phoneId = $request->attributes->get('phone_id');
-        $phone = $this->entityManager->getRepository(Phone::class)->phoneExist($phoneId);
+
+        /** @var PhoneRepository $phoneRepository */
+        $phoneRepository = $this->entityManager->getRepository(Phone::class);
+
+        /** @var Phone|null $phone */
+        $phone = $phoneRepository->phoneExist($phoneId);
 
         if (!$phone) {
             ProcessorErrorsHttp::throwNotFound(sprintf('Aucun téléphone ne correspond à l\'id : %s', $phoneId));

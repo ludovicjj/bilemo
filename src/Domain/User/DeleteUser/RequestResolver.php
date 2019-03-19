@@ -4,6 +4,7 @@ namespace App\Domain\User\DeleteUser;
 
 use App\Domain\Commun\Exceptions\ProcessorErrorsHttp;
 use App\Domain\Entity\User;
+use App\Domain\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
@@ -51,15 +52,17 @@ class RequestResolver
             );
         }
 
-        /** @var User $user */
-        $user = $this->entityManager->getRepository(User::class)->userExist($userId);
+        /** @var UserRepository $userRepository */
+        $userRepository = $this->entityManager->getRepository(User::class);
+
+        /** @var User|null $user */
+        $user = $userRepository->userExist($userId);
 
         if (!$user) {
             ProcessorErrorsHttp::throwNotFound(sprintf('Aucun utilisateur ne correspond à l\'id : %s', $userId));
         }
 
         $this->deleteUserInput->setUser($user);
-
         return $this->deleteUserInput->getInput();
     }
 }

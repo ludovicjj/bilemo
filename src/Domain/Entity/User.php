@@ -84,7 +84,7 @@ class User extends AbstractEntity
     protected $createdAt;
 
     /**
-     * @var \DateTime
+     * @var \DateTime|null
      * @JMS\Expose()
      * @JMS\Groups({"show_user"})
      */
@@ -127,36 +127,58 @@ class User extends AbstractEntity
         $this->client = $client;
     }
 
+    /**
+     * @return string
+     */
     public function getFirstName(): string
     {
         return $this->firstName;
     }
 
+    /**
+     * @return string
+     */
     public function getLastName(): string
     {
         return $this->lastName;
     }
 
+    /**
+     * @return string
+     */
     public function getPhoneNumber(): string
     {
         return $this->phoneNumber;
     }
 
+    /**
+     * @return string
+     */
     public function getEmail(): string
     {
         return $this->email;
     }
 
+    /**
+     * @return Client
+     */
     public function getClient(): Client
     {
         return $this->client;
     }
 
+    /**
+     * @return \DateTime
+     */
     public function getCreatedAt(): \DateTime
     {
         return $this->createdAt;
     }
-    public function getUpdatedAt(): ? \DateTime
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getUpdatedAt(): ?\DateTime
     {
         return $this->updatedAt;
     }

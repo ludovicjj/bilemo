@@ -212,7 +212,7 @@ class DoctrineContext implements Context
         $arrayUser = $this->getManager()->getRepository(User::class)->checkUserNotExistByEmail($email);
 
         if (count($arrayUser) > 0) {
-            throw new \Exception('expected no user', 500 );
+            throw new \Exception('expected no user', 500);
         }
     }
 

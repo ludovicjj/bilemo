@@ -59,7 +59,7 @@ class RequestResolver
         /** @var User|null $user */
         $user = $userRepository->userExist($userId);
 
-        if (!$user) {
+        if (\is_null($user)) {
             ProcessorErrorsHttp::throwNotFound(sprintf('Aucun utilisateur ne correspond à l\'id : %s', $userId));
         }
         $this->showUserInput->setUser($user);

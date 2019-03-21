@@ -13,5 +13,6 @@ class JWTExpiredListener
         $response = $event->getResponse();
 
         $response->setMessage('Your token is expired, please renew it.');
+        $response->setStatusCode(401);
     }
 }

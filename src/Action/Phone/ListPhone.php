@@ -31,6 +31,7 @@ class ListPhone
 
     /**
      * @Route("/api/phones", name="list_phone", methods={"GET"})
+     * @return Response
      */
     public function listPhone()
     {
@@ -40,7 +41,8 @@ class ListPhone
 
         return JsonResponder::response(
             $data,
-            is_null($data) ? Response::HTTP_NO_CONTENT : Response::HTTP_OK
+            is_null($data) ? Response::HTTP_NO_CONTENT : Response::HTTP_OK,
+            true
         );
     }
 }

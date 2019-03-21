@@ -65,7 +65,7 @@ class Persister
         $this->entityManager->flush();
 
         return [
-            'location' => $this->urlGenerator->generate('api_client_login')
+            'Location' => $this->urlGenerator->generate('api_client_login')
         ];
     }
 }

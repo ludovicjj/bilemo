@@ -57,7 +57,7 @@ class Persister
         $this->entityManager->flush();
 
         return [
-            'location' => $this->urlGenerator->generate(
+            'Location' => $this->urlGenerator->generate(
                 'show_user',
                 ['client_id' => $user->getClient()->getId(), 'user_id' => $user->getId()]
             )

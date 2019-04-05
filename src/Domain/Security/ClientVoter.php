@@ -7,6 +7,11 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class ClientVoter extends Voter
 {
+    /**
+     * @param string $attribute
+     * @param mixed $object
+     * @return bool
+     */
     protected function supports($attribute, $object)
     {
         /**

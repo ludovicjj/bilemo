@@ -4,6 +4,7 @@ namespace App\Domain\User\ListUser;
 
 use App\Domain\Commun\Exceptions\ProcessorErrorsHttp;
 use App\Domain\Entity\Client;
+use Doctrine\ORM\PersistentCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -53,7 +54,7 @@ class Loader
         if (!$this->security->isGranted('CLIENT_CHECK', $clientId)) {
             ProcessorErrorsHttp::throwAccessDenied('Vous n\'êtes pas autorisé à consulter ce catalogue d\'utilisateur');
         }
-
+        /** @var PersistentCollection $users */
         $users = $client->getUsers();
         $this->listUserInput->setUser($users);
 

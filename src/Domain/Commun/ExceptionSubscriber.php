@@ -7,6 +7,7 @@ use App\Responders\JsonResponder;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 class ExceptionSubscriber implements EventSubscriberInterface
@@ -25,6 +26,9 @@ class ExceptionSubscriber implements EventSubscriberInterface
                 $this->processValidatorException($event);
                 break;
             case HttpException::class:
+                $this->processHttpException($event);
+                break;
+            case NotFoundHttpException::class:
                 $this->processHttpException($event);
                 break;
         }

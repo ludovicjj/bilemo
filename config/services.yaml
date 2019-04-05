@@ -57,3 +57,7 @@ services:
         class: App\Domain\Security\ClientVoter
         tags:
             - { name: security.voter }
+
+    App\Domain\Commun\Pagination\PaginationFactory:
+        arguments:
+            $itemsPerPage: 2
